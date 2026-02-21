@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="gu">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>કૃષિસેતુ - AI Marketplace</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+        
+        * {
+            font-family: 'Poppins', sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        
+        .glass-morphism {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .hero-gradient {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        
+        .card-hover {
+            transition: all 0.3s ease;
+        }
+        
+        .card-hover:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        }
+        
+        .btn-gradient {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            transition: all 0.3s ease;
+        }
+        
+        .btn-gradient:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        }
+        
+        .floating-shapes {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: -1;
+        }
+        
+        .shape {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            animation: float-shape 20s infinite ease-in-out;
+        }
+        
+        .shape:nth-child(1) {
+            width: 80px;
+            height: 80px;
+            left: 10%;
+            animation-delay: 0s;
+        }
+        
+        .shape:nth-child(2) {
+            width: 120px;
+            height: 120px;
+            right: 20%;
+            animation-delay: 2s;
+        }
+        
+        .shape:nth-child(3) {
+            width: 60px;
+            height: 60px;
+            left: 80%;
+            animation-delay: 4s;
+        }
+        
+        @keyframes float-shape {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            33% { transform: translateY(-100px) rotate(120deg); }
+            66% { transform: translateY(-50px) rotate(240deg); }
+        }
+    </style>
+</head>
+<body>
+    <!-- Floating Background Shapes -->
+    <div class="floating-shapes">
+        <div class="shape"></div>
+        <div class="shape"></div>
+        <div class="shape"></div>
+    </div>
+
+    <!-- Header -->
+    <header class="glass-morphism shadow-lg sticky top-0 z-40">
+        <div class="max-w-7xl mx-auto px-4 py-4">
+            <div class="flex justify-between items-center">
+                <div class="flex items-center gap-3">
+                    <div class="w-12 h-12 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full flex items-center justify-center text-white text-xl">
+                        🌾
+                    </div>
+                    <div>
+                        <h1 class="text-2xl font-bold bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">કૃષિસેતુ</h1>
+                        <p class="text-xs text-gray-600">AI Powered Marketplace</p>
+                    </div>
+                </div>
+                <nav class="flex gap-3 items-center">
+                    <a href="homepage.html" class="px-4 py-2 bg-blue-500 text-white rounded-full hover:bg-blue-600 transition-all hover:scale-105">
+                        <i class="fas fa-home mr-2"></i>Home
+                    </a>
+                    <a href="products.html" class="px-4 py-2 bg-green-500 text-white rounded-full hover:bg-green-600 transition-all hover:scale-105">
+                        <i class="fas fa-box mr-2"></i>Products
+                    </a>
+                    <a href="farmers.html" class="px-4 py-2 bg-orange-500 text-white rounded-full hover:bg-orange-600 transition-all hover:scale-105">
+                        <i class="fas fa-user-tie mr-2"></i>Farmers
+                    </a>
+                    <a href="services.html" class="px-4 py-2 bg-purple-500 text-white rounded-full hover:bg-purple-600 transition-all hover:scale-105">
+                        <i class="fas fa-cogs mr-2"></i>Services
+                    </a>
+                    <a href="about.html" class="px-4 py-2 bg-pink-500 text-white rounded-full hover:bg-pink-600 transition-all hover:scale-105">
+                        <i class="fas fa-info-circle mr-2"></i>About
+                    </a>
+                    <a href="contact.html" class="px-4 py-2 bg-indigo-500 text-white rounded-full hover:bg-indigo-600 transition-all hover:scale-105">
+                        <i class="fas fa-phone mr-2"></i>Contact
+                    </a>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero-gradient rounded-3xl p-12 text-white mb-12 relative overflow-hidden">
+        <div class="relative z-10">
+            <div class="flex items-center justify-between">
+                <div class="max-w-2xl">
+                    <h2 class="text-5xl font-bold mb-6">
+                        <i class="fas fa-robot mr-3"></i>કૃષિસેતુ AI Marketplace
+                    </h2>
+                    <p class="text-xl mb-8 opacity-90">તમારા ખેતીના સવાલોના જવાબો મેળવો - પાક સલાહ, બજાર ભાવ, યોજનાઓ</p>
+                    <div class="flex gap-4 mb-8">
+                        <a href="products.html" class="px-8 py-4 bg-white text-purple-600 rounded-full font-semibold hover:bg-gray-100 transition-all hover:scale-105">
+                            <i class="fas fa-shopping-cart mr-2"></i>Shop Now
+                        </a>
+                        <a href="ai-assistant.html" class="px-8 py-4 bg-purple-800 text-white rounded-full font-semibold hover:bg-purple-900 transition-all hover:scale-105">
+                            <i class="fas fa-robot mr-2"></i>AI Assistant
+                        </a>
+                    </div>
+                    <div class="flex gap-3">
+                        <span class="status-badge bg-white/20 px-4 py-2 rounded-full">
+                            <i class="fas fa-circle text-green-400 mr-2"></i>Live API Connected
+                        </span>
+                        <span class="status-badge bg-white/20 px-4 py-2 rounded-full">
+                            <i class="fas fa-globe mr-2"></i>krishisetu-ai
+                        </span>
+                        <span class="status-badge bg-white/20 px-4 py-2 rounded-full">
+                            <i class="fas fa-clock mr-2"></i>24/7 Available
+                        </span>
+                    </div>
+                </div>
+                <div class="text-center">
+                    <div class="text-9xl mb-4 animate-bounce">🌱</div>
+                    <div class="text-2xl font-semibold">AI Assistant</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="mb-12">
+        <h2 class="text-4xl font-bold text-white text-center mb-8">
+            <i class="fas fa-star mr-3"></i>Our Features
+        </h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            <div class="glass-morphism rounded-2xl p-6 card-hover text-center">
+                <div class="text-5xl mb-4">🤖</div>
+                <h3 class="text-xl font-bold mb-2">AI Assistant</h3>
+                <p class="text-gray-600">24/7 AI support for farming questions</p>
+            </div>
+            <div class="glass-morphism rounded-2xl p-6 card-hover text-center">
+                <div class="text-5xl mb-4">📦</div>
+                <h3 class="text-xl font-bold mb-2">Fresh Products</h3>
+                <p class="text-gray-600">Direct from farmers to your home</p>
+            </div>
+            <div class="glass-morphism rounded-2xl p-6 card-hover text-center">
+                <div class="text-5xl mb-4">💰</div>
+                <h3 class="text-xl font-bold mb-2">Best Prices</h3>
+                <p class="text-gray-600">Fair prices for farmers and buyers</p>
+            </div>
+            <div class="glass-morphism rounded-2xl p-6 card-hover text-center">
+                <div class="text-5xl mb-4">🚚</div>
+                <h3 class="text-xl font-bold mb-2">Fast Delivery</h3>
+                <p class="text-gray-600">Quick delivery to your doorstep</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Categories Section -->
+    <section class="mb-12">
+        <h2 class="text-4xl font-bold text-white text-center mb-8">
+            <i class="fas fa-th-large mr-3"></i>Shop by Category
+        </h2>
+        <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+            <a href="products.html?category=vegetables" class="glass-morphism rounded-2xl p-6 card-hover text-center">
+                <div class="text-4xl mb-2">🥬</div>
+                <h3 class="font-semibold">Vegetables</h3>
+            </a>
+            <a href="products.html?category=fruits" class="glass-morphism rounded-2xl p-6 card-hover text-center">
+                <div class="text-4xl mb-2">🍎</div>
+                <h3 class="font-semibold">Fruits</h3>
+            </a>
+            <a href="products.html?category=grains" class="glass-morphism rounded-2xl p-6 card-hover text-center">
+                <div class="text-4xl mb-2">🌾</div>
+                <h3 class="font-semibold">Grains</h3>
+            </a>
+            <a href="products.html?category=dairy" class="glass-morphism rounded-2xl p-6 card-hover text-center">
+                <div class="text-4xl mb-2">🥛</div>
+                <h3 class="font-semibold">Dairy</h3>
+            </a>
+            <a href="products.html?category=spices" class="glass-morphism rounded-2xl p-6 card-hover text-center">
+                <div class="text-4xl mb-2">🌶️</div>
+                <h3 class="font-semibold">Spices</h3>
+            </a>
+            <a href="products.html?category=seeds" class="glass-morphism rounded-2xl p-6 card-hover text-center">
+                <div class="text-4xl mb-2">🌱</div>
+                <h3 class="font-semibold">Seeds</h3>
+            </a>
+        </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section class="glass-morphism rounded-3xl p-8 mb-12">
+        <h2 class="text-3xl font-bold text-center mb-8">Our Impact</h2>
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
+            <div>
+                <div class="text-4xl font-bold text-purple-600 mb-2">10,000+</div>
+                <div class="text-gray-600">Farmers Connected</div>
+            </div>
+            <div>
+                <div class="text-4xl font-bold text-green-600 mb-2">50,000+</div>
+                <div class="text-gray-600">Products Sold</div>
+            </div>
+            <div>
+                <div class="text-4xl font-bold text-blue-600 mb-2">100+</div>
+                <div class="text-gray-600">Villages Covered</div>
+            </div>
+            <div>
+                <div class="text-4xl font-bold text-orange-600 mb-2">24/7</div>
+                <div class="text-gray-600">AI Support</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section class="mb-12">
+        <h2 class="text-4xl font-bold text-white text-center mb-8">
+            <i class="fas fa-comments mr-3"></i>What Farmers Say
+        </h2>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div class="glass-morphism rounded-2xl p-6 card-hover">
+                <div class="flex items-center mb-4">
+                    <div class="w-12 h-12 bg-green-500 rounded-full flex items-center justify-center text-white font-bold mr-3">
+                        ર
+                    </div>
+                    <div>
+                        <h3 class="font-bold">રમેશભાઈ</h3>
+                        <p class="text-sm text-gray-600">ગાંધીનગર</p>
+                    </div>
+                </div>
+                <p class="text-gray-700">"કૃષિસેતુએ મારા માટે ખૂબ જ ઉપયોગી સાબિત થયું છે. હવે હું સીધા ગ્રાહકોને વેચી શકું છું."</p>
+            </div>
+            <div class="glass-morphism rounded-2xl p-6 card-hover">
+                <div class="flex items-center mb-4">
+                    <div class="w-12 h-12 bg-blue-500 rounded-full flex items-center justify-center text-white font-bold mr-3">
+                        દ
+                    </div>
+                    <div>
+                        <h3 class="font-bold">દિલીપભાઈ</h3>
+                        <p class="text-sm text-gray-600">અમદાવાદ</p>
+                    </div>
+                </div>
+                <p class="text-gray-700">"AI Assistant ખૂબ જ સારું છે. હવે મને ખેતીના સવાલોના જવાબો તરત મળી જાય છે."</p>
+            </div>
+            <div class="glass-morphism rounded-2xl p-6 card-hover">
+                <div class="flex items-center mb-4">
+                    <div class="w-12 h-12 bg-purple-500 rounded-full flex items-center justify-center text-white font-bold mr-3">
+                        ગ
+                    </div>
+                    <div>
+                        <h3 class="font-bold">ગીરીશભાઈ</h3>
+                        <p class="text-sm text-gray-600">સુરત</p>
+                    </div>
+                </div>
+                <p class="text-gray-700">"આ પ્લેટફોર્મે મારી આવક બમણી કરી દીધી છે. ખૂબ જ સારી સેવા."</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="glass-morphism rounded-t-3xl p-8">
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+            <div>
+                <h3 class="font-bold text-lg mb-3">કૃષિસેતુ</h3>
+                <p class="text-gray-600">AI Powered Marketplace for Farmers</p>
+            </div>
+            <div>
+                <h3 class="font-bold text-lg mb-3">Quick Links</h3>
+                <ul class="space-y-2">
+                    <li><a href="products.html" class="text-gray-600 hover:text-purple-600">Products</a></li>
+                    <li><a href="farmers.html" class="text-gray-600 hover:text-purple-600">Farmers</a></li>
+                    <li><a href="services.html" class="text-gray-600 hover:text-purple-600">Services</a></li>
+                </ul>
+            </div>
+            <div>
+                <h3 class="font-bold text-lg mb-3">Support</h3>
+                <ul class="space-y-2">
+                    <li><a href="about.html" class="text-gray-600 hover:text-purple-600">About Us</a></li>
+                    <li><a href="contact.html" class="text-gray-600 hover:text-purple-600">Contact</a></li>
+                    <li><a href="help.html" class="text-gray-600 hover:text-purple-600">Help</a></li>
+                </ul>
+            </div>
+            <div>
+                <h3 class="font-bold text-lg mb-3">Follow Us</h3>
+                <div class="flex gap-3">
+                    <a href="#" class="w-10 h-10 bg-blue-500 rounded-full flex items-center justify-center text-white hover:bg-blue-600">
+                        <i class="fab fa-facebook-f"></i>
+                    </a>
+                    <a href="#" class="w-10 h-10 bg-pink-500 rounded-full flex items-center justify-center text-white hover:bg-pink-600">
+                        <i class="fab fa-instagram"></i>
+                    </a>
+                    <a href="#" class="w-10 h-10 bg-blue-400 rounded-full flex items-center justify-center text-white hover:bg-blue-500">
+                        <i class="fab fa-twitter"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="text-center mt-8 pt-6 border-t border-gray-200">
+            <p class="text-gray-600">&copy; 2024 કૃષિસેતુ. All rights reserved.</p>
+        </div>
+    </footer>
+</body>
+</html>

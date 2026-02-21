@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="gu">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>એડમિન પેનલ - કૃષિસેતુ</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f5f5f5;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #2e7d32 0%, #4caf50 100%);
+            color: white;
+            padding: 15px 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+        }
+        
+        .admin-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .logout-btn {
+            background: rgba(255,255,255,0.2);
+            color: white;
+            padding: 8px 16px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        
+        .logout-btn:hover {
+            background: rgba(255,255,255,0.3);
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 0 20px;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .stat-card {
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+        
+        .stat-number {
+            font-size: 36px;
+            font-weight: bold;
+            color: #2e7d32;
+            margin-bottom: 10px;
+        }
+        
+        .stat-label {
+            color: #666;
+            font-size: 16px;
+        }
+        
+        .admin-sections {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+        
+        .section-card {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        
+        .section-header {
+            background: linear-gradient(135deg, #4285f4 0%, #1a73e8 100%);
+            color: white;
+            padding: 20px;
+            font-size: 18px;
+            font-weight: 600;
+        }
+        
+        .section-content {
+            padding: 20px;
+        }
+        
+        .action-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        
+        .action-btn {
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
+            padding: 12px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-align: left;
+            font-size: 14px;
+        }
+        
+        .action-btn:hover {
+            background: #e9ecef;
+            border-color: #adb5bd;
+        }
+        
+        .action-btn.primary {
+            background: linear-gradient(135deg, #ff6b35 0%, #f7931e 100%);
+            color: white;
+            border: none;
+        }
+        
+        .action-btn.primary:hover {
+            background: linear-gradient(135deg, #e55a2b 0%, #e6841a 100%);
+        }
+        
+        .recent-activity {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            margin-top: 20px;
+        }
+        
+        .activity-header {
+            background: linear-gradient(135deg, #ff6b35 0%, #f7931e 100%);
+            color: white;
+            padding: 20px;
+            font-size: 18px;
+            font-weight: 600;
+        }
+        
+        .activity-list {
+            padding: 20px;
+        }
+        
+        .activity-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px solid #f0f0f0;
+        }
+        
+        .activity-item:last-child {
+            border-bottom: none;
+        }
+        
+        .activity-text {
+            flex: 1;
+            color: #333;
+        }
+        
+        .activity-time {
+            color: #666;
+            font-size: 12px;
+        }
+        
+        .status-badge {
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+        
+        .status-pending {
+            background: #fff3cd;
+            color: #856404;
+        }
+        
+        .status-approved {
+            background: #d4edda;
+            color: #155724;
+        }
+        
+        .status-rejected {
+            background: #f8d7da;
+            color: #721c24;
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="header-content">
+            <div class="logo">🌾 કૃષિસેતુ - એડમિન પેનલ</div>
+            <div class="admin-info">
+                <span>👨‍💼 એડમિન</span>
+                <button class="logout-btn" onclick="logout()">લોગઆઉટ</button>
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <!-- Statistics -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-number" id="totalUsers">0</div>
+                <div class="stat-label">કુલ વપરાશકર્તાઓ</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="totalFarmers">0</div>
+                <div class="stat-label">ખેડૂતો</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="totalProducts">0</div>
+                <div class="stat-label">ઉત્પાદનો</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="totalOrders">0</div>
+                <div class="stat-label">ઓર્ડર્સ</div>
+            </div>
+        </div>
+
+        <!-- Admin Sections -->
+        <div class="admin-sections">
+            <div class="section-card">
+                <div class="section-header">👥 વપરાશકર્તા સંચાલન</div>
+                <div class="section-content">
+                    <div class="action-buttons">
+                        <button class="action-btn" onclick="manageUsers()">📋 બધા વપરાશકર્તાઓ જુઓ</button>
+                        <button class="action-btn" onclick="approveFarmers()">✅ ખેડૂતોને મંજૂર કરો</button>
+                        <button class="action-btn" onclick="blockUsers()">🚫 વપરાશકર્તાઓને અવરોધિત કરો</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section-card">
+                <div class="section-header">🏪 દુકાન સંચાલન</div>
+                <div class="section-content">
+                    <div class="action-buttons">
+                        <button class="action-btn" onclick="manageShops()">🏪 બધી દુકાનો જુઓ</button>
+                        <button class="action-btn" onclick="verifyShops()">✅ દુકાનોને ચકાસો</button>
+                        <button class="action-btn primary" onclick="addShop()">➕ નવી દુકાન ઉમેરો</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section-card">
+                <div class="section-header">📦 ઉત્પાદન સંચાલન</div>
+                <div class="section-content">
+                    <div class="action-buttons">
+                        <button class="action-btn" onclick="manageProducts()">📦 બધા ઉત્પાદનો જુઓ</button>
+                        <button class="action-btn" onclick="moderateProducts()">🔍 ઉત્પાદનોની સમીક્ષા કરો</button>
+                        <button class="action-btn" onclick="featuredProducts()">⭐ ફીચર્ડ ઉત્પાદનો</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section-card">
+                <div class="section-header">📋 ઓર્ડર સંચાલન</div>
+                <div class="section-content">
+                    <div class="action-buttons">
+                        <button class="action-btn" onclick="manageOrders()">📋 બધા ઓર્ડર્સ જુઓ</button>
+                        <button class="action-btn" onclick="trackOrders()">📍 ઓર્ડર ટ્રેકિંગ</button>
+                        <button class="action-btn" onclick="disputeOrders()">⚠️ વિવાદ સંચાલન</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section-card">
+                <div class="section-header">💰 નાણાકીય સંચાલન</div>
+                <div class="section-content">
+                    <div class="action-buttons">
+                        <button class="action-btn" onclick="viewRevenue()">💰 આવક જુઓ</button>
+                        <button class="action-btn" onclick="managePayments()">💳 ચુકવણી સંચાલન</button>
+                        <button class="action-btn" onclick="commissionSettings()">⚙️ કમિશન સેટિંગ્સ</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section-card">
+                <div class="section-header">📊 રિપોર્ટ્સ</div>
+                <div class="section-content">
+                    <div class="action-buttons">
+                        <button class="action-btn" onclick="salesReport()">📈 વેચાણ રિપોર્ટ</button>
+                        <button class="action-btn" onclick="userReport()">👥 વપરાશકર્તા રિપોર્ટ</button>
+                        <button class="action-btn" onclick="locationReport()">📍 સ્થાન રિપોર્ટ</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Recent Activity -->
+        <div class="recent-activity">
+            <div class="activity-header">🕐 તાજેતરની પ્રવૃત્તિઓ</div>
+            <div class="activity-list" id="activityList">
+                <!-- Activities will be loaded here -->
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script>
+        const { createClient } = supabase;
+        const SUPABASE_URL = "https://yifxjesvzleysizlokrr.supabase.co";
+        const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InlpZnhqZXN2emxleXNpemxva3JyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzE1NzMwNzEsImV4cCI6MjA4NzE0OTA3MX0.gYYD9eunAVwJTzBykmxgpNjEJJ1Cm5HScJGzY3LEQJE";
+        const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+        // Sample data
+        const adminStats = {
+            totalUsers: 1250,
+            totalFarmers: 450,
+            totalProducts: 2100,
+            totalOrders: 3200
+        };
+
+        const recentActivities = [
+            { text: "નવા ખેડૂત રજિસ્ટ્રેશન: રમેશભાઈ પટેલ", time: "2 મિનિટ પહેલાં", status: "pending" },
+            { text: "નવું ઉત્પાદન ઉમેરાયું: તાજા ટમેટા", time: "5 મિનિટ પહેલાં", status: "approved" },
+            { text: "ઓર્ડર #1234 પૂર્ણ થયો", time: "10 મિનિટ પહેલાં", status: "approved" },
+            { text: "દુકાન ચકાસણી વિનંતી: ગીરીશભાઈ દુકાન", time: "15 મિનિટ પહેલાં", status: "pending" },
+            { text: "વપરાશકર્તા અવરોધિત: ફોન સ્પેમ", time: "30 મિનિટ પહેલાં", status: "rejected" }
+        ];
+
+        // Load statistics
+        function loadStats() {
+            document.getElementById('totalUsers').textContent = adminStats.totalUsers;
+            document.getElementById('totalFarmers').textContent = adminStats.totalFarmers;
+            document.getElementById('totalProducts').textContent = adminStats.totalProducts;
+            document.getElementById('totalOrders').textContent = adminStats.totalOrders;
+        }
+
+        // Load activities
+        function loadActivities() {
+            const activityList = document.getElementById('activityList');
+            activityList.innerHTML = '';
+            
+            recentActivities.forEach(activity => {
+                const activityItem = document.createElement('div');
+                activityItem.className = 'activity-item';
+                activityItem.innerHTML = `
+                    <div class="activity-text">${activity.text}</div>
+                    <div style="display: flex; align-items: center; gap: 10px;">
+                        <span class="status-badge status-${activity.status}">
+                            ${activity.status === 'pending' ? 'બાકી' : 
+                              activity.status === 'approved' ? 'મંજૂર' : 'નકારાયેલ'}
+                        </span>
+                        <span class="activity-time">${activity.time}</span>
+                    </div>
+                `;
+                activityList.appendChild(activityItem);
+            });
+        }
+
+        // Admin functions
+        function manageUsers() {
+            alert('👥 વપરાશકર્તા સંચાલન - બધા વપરાશકર્તાઓની યાદી');
+        }
+
+        function approveFarmers() {
+            alert('✅ ખેડૂતોને મંજૂર કરો - નવા ખેડૂતોને મંજૂરી');
+        }
+
+        function blockUsers() {
+            alert('🚫 વપરાશકર્તાઓને અવરોધિત કરો - નિયમ ઉલ્લંઘન કરનારા');
+        }
+
+        function manageShops() {
+            alert('🏪 બધી દુકાનો જુઓ - દુકાનોની યાદી');
+        }
+
+        function verifyShops() {
+            alert('✅ દુકાનોને ચકાસો - દસ્તાવેજી ચકાસણી');
+        }
+
+        function addShop() {
+            alert('➕ નવી દુકાન ઉમેરો - એડમિન દ્વારા દુકાન');
+        }
+
+        function manageProducts() {
+            alert('📦 બધા ઉત્પાદનો જુઓ - ઉત્પાદનોની યાદી');
+        }
+
+        function moderateProducts() {
+            alert('🔍 ઉત્પાદનોની સમીક્ષા કરો - ગુણવત્તા તપાસ');
+        }
+
+        function featuredProducts() {
+            alert('⭐ ફીચર્ડ ઉત્પાદનો - ખાસ ઉત્પાદનો');
+        }
+
+        function manageOrders() {
+            alert('📋 બધા ઓર્ડર્સ જુઓ - ઓર્ડર સંચાલન');
+        }
+
+        function trackOrders() {
+            alert('📍 ઓર્ડર ટ્રેકિંગ - લાઇવ ટ્રેકિંગ');
+        }
+
+        function disputeOrders() {
+            alert('⚠️ વિવાદ સંચાલન - ઓર્ડર વિવાદો');
+        }
+
+        function viewRevenue() {
+            alert('💰 આવક જુઓ - કમિશન અને આવક');
+        }
+
+        function managePayments() {
+            alert('💳 ચુકવણી સંચાલન - પેમેન્ટ ટ્રેકિંગ');
+        }
+
+        function commissionSettings() {
+            alert('⚙️ કમિશન સેટિંગ્સ - કમિશન રેટ');
+        }
+
+        function salesReport() {
+            alert('📈 વેચાણ રિપોર્ટ - વેચાણ આંકડા');
+        }
+
+        function userReport() {
+            alert('👥 વપરાશકર્તા રિપોર્ટ - વપરાશકર્તા આંકડા');
+        }
+
+        function locationReport() {
+            alert('📍 સ્થાન રિપોર્ટ - સ્થાનવાર આંકડા');
+        }
+
+        function logout() {
+            if (confirm('શું તમે લોગઆઉટ કરવા માંગો છો?')) {
+                window.location.href = 'index-complete.html';
+            }
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            loadStats();
+            loadActivities();
+            
+            // Auto-refresh stats every 30 seconds
+            setInterval(() => {
+                // Simulate real-time updates
+                adminStats.totalOrders += Math.floor(Math.random() * 3);
+                adminStats.totalUsers += Math.floor(Math.random() * 2);
+                loadStats();
+            }, 30000);
+        });
+    </script>
+</body>
+</html>

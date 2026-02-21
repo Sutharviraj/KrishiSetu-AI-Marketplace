@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KrishiSetu - Marketplace</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="container">
+        <header class="page-header">
+            <h1>🛒 Fresh Marketplace</h1>
+            <p class="subtitle">તાજી બજાર</p>
+            <div class="search-bar">
+                <input type="text" id="searchInput" placeholder="🔍 Search crops...">
+            </div>
+        </header>
+
+        <div class="filter-section">
+            <button class="filter-btn active" data-filter="all">All</button>
+            <button class="filter-btn" data-filter="vegetables">🥬 Vegetables</button>
+            <button class="filter-btn" data-filter="fruits">🍎 Fruits</button>
+            <button class="filter-btn" data-filter="grains">🌾 Grains</button>
+        </div>
+
+        <div class="products-grid" id="productsGrid">
+            <div class="loading">
+                <div class="loading-spinner"></div>
+                <p>Loading fresh products...</p>
+            </div>
+            <div id="products"></div>
+        </div>
+
+        <!-- Order Modal -->
+        <div class="modal" id="orderModal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3>🛒 Place Order</h3>
+                    <button class="close-btn" onclick="closeOrderModal()">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <div class="product-summary">
+                        <img id="modalProductImage" src="" alt="">
+                        <div class="product-info">
+                            <h4 id="modalProductName"></h4>
+                            <p id="modalProductPrice"></p>
+                        </div>
+                    </div>
+                    
+                    <form id="orderForm">
+                        <div class="input-group">
+                            <input type="number" id="orderQuantity" placeholder="Quantity (kg)" min="1" required>
+                        </div>
+                        <div class="input-group">
+                            <input type="text" id="deliveryAddress" placeholder="🏠 Delivery Address" required>
+                        </div>
+                        <div class="input-group">
+                            <select id="paymentType">
+                                <option value="cod">Cash on Delivery</option>
+                                <option value="online">Online Payment</option>
+                            </select>
+                        </div>
+                        <button type="button" class="btn primary-btn" onclick="placeOrder()">
+                            Confirm Order
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bottom Navigation -->
+    <nav class="bottom-nav">
+        <a href="dashboard.html" class="nav-item">
+            <span class="nav-icon">🏠</span>
+            <span class="nav-label">Home</span>
+        </a>
+        <a href="add-product.html" class="nav-item">
+            <span class="nav-icon">➕</span>
+            <span class="nav-label">Add</span>
+        </a>
+        <a href="products.html" class="nav-item active">
+            <span class="nav-icon">🛒</span>
+            <span class="nav-label">Market</span>
+        </a>
+        <a href="orders.html" class="nav-item">
+            <span class="nav-icon">📦</span>
+            <span class="nav-label">Orders</span>
+        </a>
+    </nav>
+
+    <script type="module">
+        import { supabase } from "./js/supabase.js";
+
+        const products = document.getElementById('products');
+        products.innerHTML = "<p>Loading products...</p>";
+
+        let { data, error } = await supabase.from("products").select("*");
+
+        if (error) {
+            products.innerHTML = "<p>Error loading products</p>";
+        } else if (data.length === 0) {
+            products.innerHTML = "<p>No products available</p>";
+        } else {
+            products.innerHTML = "";
+
+            data.forEach(p => {
+                products.innerHTML += `
+                <div class="card">
+                    <img src="${p.image_url}">
+                    <h3>${p.product_name}</h3>
+                    <p>₹${p.price}</p>
+                    <button class="btn" onclick="order('${p.id}')">Buy</button>
+                </div>`;
+            });
+        }
+    </script>
+</body>
+</html>

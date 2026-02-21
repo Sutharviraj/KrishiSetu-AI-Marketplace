@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Crop Analysis - KRISHISETU</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="container">
+        <header class="page-header">
+            <h1>🤖 AI Crop Analysis</h1>
+            <p>Upload your crop photo for AI-powered quality analysis and price prediction</p>
+        </header>
+
+        <main class="main-content">
+            <!-- Image Upload Section -->
+            <section class="upload-section">
+                <h2>📷 Upload Crop Photo</h2>
+                <div id="imagePreview" class="image-preview">
+                    <div class="upload-placeholder">
+                        <span class="upload-icon">📷</span>
+                        <p>Click to upload crop photo for AI analysis</p>
+                        <small>AI will analyze quality and suggest price</small>
+                    </div>
+                </div>
+                <input type="file" id="analysisImage" accept="image/*" style="display: none;">
+                
+                <div class="analysis-options">
+                    <label for="analysisType">Analysis Type:</label>
+                    <select id="analysisType">
+                        <option value="quality">Quality & Price Prediction</option>
+                        <option value="disease">Disease Detection</option>
+                        <option value="ripeness">Ripeness Analysis</option>
+                    </select>
+                </div>
+                
+                <button class="btn btn-primary" onclick="analyzeImage()">
+                    <span class="btn-icon">🔬</span> Analyze with AI
+                </button>
+            </section>
+
+            <!-- Results Section -->
+            <section id="analysisResults" class="results-section" style="display: none;">
+                <!-- Results will be populated here by JavaScript -->
+            </section>
+
+            <!-- Analysis History -->
+            <section class="history-section">
+                <h2>📊 Analysis History</h2>
+                <div id="analysisHistory" class="history-grid">
+                    <!-- Analysis history will be loaded here -->
+                </div>
+            </section>
+        </main>
+
+        <!-- Bottom Navigation -->
+        <nav class="bottom-nav">
+            <a href="dashboard.html" class="nav-item">
+                <span class="nav-icon">🏠</span>
+                <span class="nav-label">Home</span>
+            </a>
+            <a href="add-product.html" class="nav-item">
+                <span class="nav-icon">➕</span>
+                <span class="nav-label">Add</span>
+            </a>
+            <a href="products.html" class="nav-item">
+                <span class="nav-icon">🛒</span>
+                <span class="nav-label">Market</span>
+            </a>
+            <a href="ai-analysis.html" class="nav-item active">
+                <span class="nav-icon">🤖</span>
+                <span class="nav-label">AI</span>
+            </a>
+            <a href="orders.html" class="nav-item">
+                <span class="nav-icon">📦</span>
+                <span class="nav-label">Orders</span>
+            </a>
+        </nav>
+    </div>
+
+    <script type="module" src="js/ai-analysis.js"></script>
+</body>
+</html>

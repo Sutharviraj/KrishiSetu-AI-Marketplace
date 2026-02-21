@@ -1,0 +1,649 @@
+<!DOCTYPE html>
+<html lang="gu">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>કૃષિસેતુ - AI Integrated Marketplace</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <style>
+        .ai-chat-widget {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 1000;
+        }
+        
+        .ai-chat-button {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            border: none;
+            color: white;
+            font-size: 24px;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(16,185,129,0.3);
+            transition: all 0.3s;
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        
+        .ai-chat-button:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 20px rgba(16,185,129,0.4);
+        }
+        
+        .ai-chat-window {
+            position: absolute;
+            bottom: 80px;
+            right: 0;
+            width: 380px;
+            height: 550px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+            display: none;
+            flex-direction: column;
+            overflow: hidden;
+        }
+        
+        .ai-chat-window.show {
+            display: flex;
+        }
+        
+        .ai-chat-header {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            color: white;
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .ai-chat-title {
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .ai-chat-close {
+            background: none;
+            border: none;
+            font-size: 20px;
+            cursor: pointer;
+            color: white;
+            opacity: 0.8;
+            transition: opacity 0.3s;
+        }
+        
+        .ai-chat-close:hover {
+            opacity: 1;
+        }
+        
+        .ai-chat-messages {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+            background: #f9fafb;
+        }
+        
+        .ai-message {
+            margin-bottom: 15px;
+            display: flex;
+            gap: 10px;
+        }
+        
+        .ai-avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 14px;
+            font-weight: bold;
+            flex-shrink: 0;
+        }
+        
+        .ai-bubble {
+            background: white;
+            padding: 12px 16px;
+            border-radius: 18px;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+            max-width: 80%;
+            line-height: 1.4;
+        }
+        
+        .ai-user-message {
+            flex-direction: row-reverse;
+        }
+        
+        .ai-user-message .ai-avatar {
+            background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+        }
+        
+        .ai-user-message .ai-bubble {
+            background: #3b82f6;
+            color: white;
+        }
+        
+        .ai-typing {
+            display: flex;
+            gap: 4px;
+            padding: 8px 12px;
+        }
+        
+        .ai-typing-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #6b7280;
+            animation: typing 1.4s infinite;
+        }
+        
+        .ai-typing-dot:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+        
+        .ai-typing-dot:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+        
+        @keyframes typing {
+            0%, 60%, 100% { opacity: 0.3; }
+            30% { opacity: 1; }
+        }
+        
+        .ai-chat-input {
+            padding: 15px 20px;
+            border-top: 1px solid #e5e7eb;
+            display: flex;
+            gap: 10px;
+            background: white;
+        }
+        
+        .ai-input {
+            flex: 1;
+            padding: 10px 14px;
+            border: 1px solid #d1d5db;
+            border-radius: 20px;
+            outline: none;
+            font-size: 14px;
+            transition: border-color 0.3s;
+        }
+        
+        .ai-input:focus {
+            border-color: #10b981;
+        }
+        
+        .ai-send {
+            background: #10b981;
+            color: white;
+            border: none;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.3s;
+        }
+        
+        .ai-send:hover {
+            background: #059669;
+        }
+        
+        .ai-quick-actions {
+            padding: 10px 20px;
+            border-top: 1px solid #e5e7eb;
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            background: #f9fafb;
+        }
+        
+        .ai-quick-btn {
+            padding: 6px 12px;
+            background: white;
+            border: 1px solid #d1d5db;
+            border-radius: 15px;
+            font-size: 12px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .ai-quick-btn:hover {
+            background: #10b981;
+            color: white;
+            border-color: #10b981;
+        }
+        
+        .ai-status {
+            padding: 8px 20px;
+            background: #ecfdf5;
+            color: #065f46;
+            font-size: 12px;
+            text-align: center;
+            border-top: 1px solid #d1fae5;
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- Header -->
+    <header class="bg-white shadow-sm sticky top-0 z-40">
+        <div class="max-w-6xl mx-auto px-4 py-3 flex justify-between items-center">
+            <div class="flex items-center gap-2">
+                <span class="text-2xl">🌾</span>
+                <span class="text-xl font-bold text-green-700">કૃષિસેતુ</span>
+                <span class="px-2 py-1 bg-green-100 text-green-700 text-xs rounded-full">AI Powered</span>
+            </div>
+            <nav class="flex gap-4 items-center">
+                <button onclick="showProducts()" class="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600">ઉત્પાદનો</button>
+                <button onclick="showFarmers()" class="px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600">ખેડૂતો</button>
+                <button onclick="showOrders()" class="px-4 py-2 bg-orange-500 text-white rounded-lg hover:bg-orange-600">ઓર્ડર્સ</button>
+                <button onclick="showAI()" class="px-4 py-2 bg-purple-500 text-white rounded-lg hover:bg-purple-600">🤖 AI Assistant</button>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="max-w-6xl mx-auto px-4 py-8">
+        <!-- AI Assistant Banner -->
+        <div class="mb-8 bg-gradient-to-r from-green-500 to-emerald-600 rounded-lg p-6 text-white">
+            <div class="flex items-center justify-between">
+                <div>
+                    <h2 class="text-2xl font-bold mb-2">🤖 કૃષિસેતુ AI Assistant</h2>
+                    <p class="opacity-90">તમારા ખેતીના સવાલોના જવાબો મેળવો - પાક સલાહ, બજાર ભાવ, યોજનાઓ</p>
+                </div>
+                <div class="text-center">
+                    <div class="text-4xl mb-2">🌱</div>
+                    <div class="text-sm">24/7 Available</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Status Display -->
+        <div id="status" class="mb-6 p-4 bg-blue-50 rounded-lg text-blue-700"></div>
+
+        <!-- Products Section -->
+        <section id="products-section" class="mb-8">
+            <div class="flex justify-between items-center mb-6">
+                <h2 class="text-2xl font-bold text-gray-800">📦 ઉત્પાદનો</h2>
+                <button onclick="addProduct()" class="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700">+ ઉત્પાદન ઉમેરો</button>
+            </div>
+            <div id="products-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Products will load here -->
+            </div>
+        </section>
+
+        <!-- Farmers Section -->
+        <section id="farmers-section" class="mb-8 hidden">
+            <div class="flex justify-between items-center mb-6">
+                <h2 class="text-2xl font-bold text-gray-800">👨‍🌾 ખેડૂતો</h2>
+                <button onclick="addFarmer()" class="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700">+ ખેડૂત ઉમેરો</button>
+            </div>
+            <div id="farmers-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Farmers will load here -->
+            </div>
+        </section>
+
+        <!-- Orders Section -->
+        <section id="orders-section" class="mb-8 hidden">
+            <div class="flex justify-between items-center mb-6">
+                <h2 class="text-2xl font-bold text-gray-800">📋 ઓર્ડર્સ</h2>
+                <button onclick="addOrder()" class="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700">+ ઓર્ડર ઉમેરો</button>
+            </div>
+            <div id="orders-grid" class="space-y-4">
+                <!-- Orders will load here -->
+            </div>
+        </section>
+    </main>
+
+    <!-- AI Chat Widget -->
+    <div class="ai-chat-widget">
+        <button class="ai-chat-button" onclick="toggleAIChat()" title="AI Assistant">
+            🤖
+        </button>
+        <div class="ai-chat-window" id="aiChatWindow">
+            <div class="ai-chat-header">
+                <div class="ai-chat-title">
+                    🤖 કૃષિસેતુ AI
+                    <span class="text-xs opacity-75">LIVE</span>
+                </div>
+                <button class="ai-chat-close" onclick="toggleAIChat()">×</button>
+            </div>
+            
+            <div class="ai-chat-messages" id="aiChatMessages">
+                <div class="ai-message">
+                    <div class="ai-avatar">🤖</div>
+                    <div class="ai-bubble">
+                        નમસ્તે! હું કૃષિસેતુ AI છું. હું તમને ખેતી વિશે માર્ગદર્શન આપી શકું છું. તમે પૂછી શકો છો:
+                        <br><br>
+                        🌾 પાક સલાહ<br>
+                        🐛 જીવાત/રોગ નિયંત્રણ<br>
+                        💰 બજાર ભાવ<br>
+                        🏛️ સરકારી યોજનાઓ<br>
+                        📱 ખેતી ટિપ્સ
+                    </div>
+                </div>
+            </div>
+            
+            <div class="ai-quick-actions">
+                <button class="ai-quick-btn" onclick="askAI('કપાસની ખેતી કેવી રીતે કરવી?')">કપાસ ખેતી</button>
+                <button class="ai-quick-btn" onclick="askAI('આજના બજાર ભાવ?')">બજાર ભાવ</button>
+                <button class="ai-quick-btn" onclick="askAI('સરકારી યોજનાઓ')">યોજનાઓ</button>
+                <button class="ai-quick-btn" onclick="askAI('જમીન પરીક્ષણ')">જમીન પરીક્ષણ</button>
+            </div>
+            
+            <div class="ai-status">
+                ✅ AI Assistant Active - Connected to krishisetu-ai
+            </div>
+            
+            <div class="ai-chat-input">
+                <input type="text" class="ai-input" id="aiInput" placeholder="તમારો સવાલ પૂછો..." onkeypress="handleAIInput(event)">
+                <button class="ai-send" onclick="sendAIMessage()">➤</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Supabase Configuration
+        const { createClient } = supabase;
+        const SUPABASE_URL = "https://yifxjesvzleysizlokrr.supabase.co";
+        const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InlpZnhqZXN2emxleXNpemxva3JyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzE1NzMwNzEsImV4cCI6MjA4NzE0OTA3MX0.gYYD9eunAVwJTzBykmxgpNjEJJ1Cm5HScJGzY3LEQJE";
+        const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+        let currentUser = null;
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', async () => {
+            await checkUserSession();
+            await loadProducts();
+            updateStatus('✅ કૃષિસેતુ AI Marketplace લોડ થયો - AI Assistant Active!');
+        });
+
+        // Check user session
+        async function checkUserSession() {
+            try {
+                const { data: { session } } = await supabase.auth.getSession();
+                currentUser = session?.user || null;
+                if (currentUser) {
+                    updateStatus(`✅ લોગિન: ${currentUser.email} | 🤖 AI Assistant Ready`);
+                } else {
+                    updateStatus('🤖 AI Assistant Ready - મહેરબાની કરીને લોગિન કરો');
+                }
+            } catch (error) {
+                updateStatus('🤖 AI Assistant Ready - સેશન ચેક ભૂલ: ' + error.message);
+            }
+        }
+
+        // Load products from Supabase
+        async function loadProducts() {
+            try {
+                updateStatus('🔄 ઉત્પાદનો લોડ થઈ રહ્યા છે...');
+                
+                const { data, error } = await supabase
+                    .from('products')
+                    .select('*')
+                    .order('created_at', { ascending: false });
+
+                if (error) {
+                    if (error.code === 'PGRST116') {
+                        await createSampleProducts();
+                        return loadProducts();
+                    }
+                    throw error;
+                }
+
+                displayProducts(data);
+                updateStatus(`✅ ${data.length} ઉત્પાદનો લોડ થયા | 🤖 AI Assistant Ready`);
+            } catch (error) {
+                updateStatus('❌ ઉત્પાદનો લોડ કરવામાં ભૂલ: ' + error.message);
+            }
+        }
+
+        // Display products
+        function displayProducts(products) {
+            const grid = document.getElementById('products-grid');
+            grid.innerHTML = '';
+
+            if (products.length === 0) {
+                grid.innerHTML = '<div class="col-span-full text-center py-8 text-gray-500">કોઈ ઉત્પાદનો મળ્યા નથી</div>';
+                return;
+            }
+
+            products.forEach(product => {
+                const card = document.createElement('div');
+                card.className = 'bg-white rounded-lg shadow-lg p-6 hover:shadow-xl transition-shadow';
+                card.innerHTML = `
+                    <div class="text-4xl mb-4">${product.image || '🌾'}</div>
+                    <h3 class="text-xl font-bold mb-2">${product.name}</h3>
+                    <p class="text-gray-600 mb-2">${product.description}</p>
+                    <p class="text-2xl font-bold text-green-600 mb-2">₹${product.price}/${product.unit}</p>
+                    <p class="text-sm text-gray-500 mb-4">👨‍🌾 ${product.farmer_name} | 📍 ${product.location}</p>
+                    <div class="flex gap-2">
+                        <button onclick="buyProduct(${product.id})" class="flex-1 px-3 py-2 bg-green-600 text-white rounded hover:bg-green-700">ખરીદો</button>
+                        <button onclick="askAI('${product.name} વિશે જાણકારી')" class="px-3 py-2 bg-purple-600 text-white rounded hover:bg-purple-700">🤖 AI</button>
+                        <button onclick="editProduct(${product.id})" class="px-3 py-2 bg-blue-600 text-white rounded hover:bg-blue-600">સંપાદિત</button>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        // Create sample products
+        async function createSampleProducts() {
+            const sampleProducts = [
+                { name: 'તાજા ટમેટા', description: 'શ્રેષ્ઠ ગુણવત્તાવાળા ટમેટા', price: 40, unit: 'kg', farmer_name: 'રમેશભાઈ', location: 'ગાંધીનગર', image: '🍅' },
+                { name: 'બાસમતી ચોખા', description: '1121 વિધેય બાસમતી ચોખા', price: 120, unit: 'kg', farmer_name: 'દિલીપભાઈ', location: 'અમદાવાદ', image: '🍚' },
+                { name: 'તાજી દૂધ', description: 'ગાયનું તાજું દૂધ', price: 55, unit: 'liter', farmer_name: 'ગીરીશભાઈ', location: 'સુરત', image: '🥛' }
+            ];
+
+            for (const product of sampleProducts) {
+                await supabase.from('products').insert(product);
+            }
+        }
+
+        // AI Chat Functions
+        function toggleAIChat() {
+            const chatWindow = document.getElementById('aiChatWindow');
+            chatWindow.classList.toggle('show');
+        }
+
+        function askAI(question) {
+            const input = document.getElementById('aiInput');
+            input.value = question;
+            sendAIMessage();
+        }
+
+        async function sendAIMessage() {
+            const input = document.getElementById('aiInput');
+            const message = input.value.trim();
+            
+            if (!message) return;
+
+            const messagesContainer = document.getElementById('aiChatMessages');
+            
+            // Add user message
+            const userMessage = document.createElement('div');
+            userMessage.className = 'ai-message ai-user-message';
+            userMessage.innerHTML = `
+                <div class="ai-avatar">👤</div>
+                <div class="ai-bubble">${message}</div>
+            `;
+            messagesContainer.appendChild(userMessage);
+
+            // Clear input
+            input.value = '';
+
+            // Show typing indicator
+            const typingMessage = document.createElement('div');
+            typingMessage.className = 'ai-message';
+            typingMessage.innerHTML = `
+                <div class="ai-avatar">🤖</div>
+                <div class="ai-bubble">
+                    <div class="ai-typing">
+                        <div class="ai-typing-dot"></div>
+                        <div class="ai-typing-dot"></div>
+                        <div class="ai-typing-dot"></div>
+                    </div>
+                </div>
+            `;
+            messagesContainer.appendChild(typingMessage);
+
+            // Scroll to bottom
+            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+
+            // Simulate AI response (replace with real API call)
+            setTimeout(() => {
+                typingMessage.remove();
+                
+                const aiResponse = document.createElement('div');
+                aiResponse.className = 'ai-message';
+                aiResponse.innerHTML = `
+                    <div class="ai-avatar">🤖</div>
+                    <div class="ai-bubble">
+                        ${getAIResponse(message)}
+                    </div>
+                `;
+                messagesContainer.appendChild(aiResponse);
+                messagesContainer.scrollTop = messagesContainer.scrollHeight;
+            }, 2000);
+        }
+
+        function getAIResponse(question) {
+            const responses = {
+                'કપાસ': 'કપાસની ખેતી માટે: 1. ઉત્તમ જમીન પસંદ કરો 2. સમયસર બિયાણ કરો 3. યોગ્ય નીંદણી કરો 4. જીવાતનિયંત્રણ કરો 5. સમયસર કાપણી કરો',
+                'બજાર ભાવ': 'આજના બજાર ભાવ: ટમેટા ₹40/kg, મરચાં ₹80/kg, દૂધ ₹55/liter, ઘઉં ₹2500/quintal',
+                'યોજનાઓ': 'ઉપલબ્ધ યોજનાઓ: PM-Kisan, ફસલ વીમા, કૃષિ સિંચાઈ યોજના, જૈવિક ખેતી સહાય',
+                'જમીન': 'જમીન પરીક્ષણ માટે: 1. માટીનું નમૂનું લો 2. જમીન પરીક્ષણ લેબોરેટરીમાં મોકલો 3. અહીંથી મેળવો'
+            };
+
+            for (const [key, response] of Object.entries(responses)) {
+                if (question.includes(key)) {
+                    return response;
+                }
+            }
+
+            return 'તમારા સવાલનો જવાબ આપવામાં આવી રહ્યો છે. કૃષિસેતુ AI હંમેશા તમારી મદદ કરવા માટે તૈયાર છે. વધુ માહિતી માટે krishisetu.ai પર મુલાકાત કરો.';
+        }
+
+        function handleAIInput(event) {
+            if (event.key === 'Enter') {
+                sendAIMessage();
+            }
+        }
+
+        // Product functions
+        async function addProduct() {
+            const name = prompt('ઉત્પાદનનું નામ:');
+            if (!name) return;
+
+            const price = prompt('ભાવ:');
+            if (!price) return;
+
+            try {
+                const { data, error } = await supabase
+                    .from('products')
+                    .insert({
+                        name,
+                        price: parseFloat(price),
+                        unit: 'kg',
+                        farmer_name: currentUser?.email || 'Demo User',
+                        location: 'ગુજરાત',
+                        image: '🌾'
+                    })
+                    .select();
+
+                if (error) throw error;
+                
+                updateStatus('✅ ઉત્પાદન સફળતાપૂર્વક ઉમેરાયું!');
+                loadProducts();
+            } catch (error) {
+                updateStatus('❌ ઉત્પાદન ઉમેરવામાં ભૂલ: ' + error.message);
+            }
+        }
+
+        async function buyProduct(productId) {
+            if (!currentUser) {
+                alert('ખરીદી માટે લોગિન કરો!');
+                return;
+            }
+
+            try {
+                const { data, error } = await supabase
+                    .from('orders')
+                    .insert({
+                        product_id: productId,
+                        buyer_id: currentUser.id,
+                        status: 'pending',
+                        created_at: new Date().toISOString()
+                    });
+
+                if (error) throw error;
+                
+                updateStatus('✅ ઓર્ડર સફળતાપૂર્વક મૂકાયો!');
+            } catch (error) {
+                updateStatus('❌ ઓર્ડર મૂકવામાં ભૂલ: ' + error.message);
+            }
+        }
+
+        // Navigation functions
+        function showProducts() {
+            hideAllSections();
+            document.getElementById('products-section').classList.remove('hidden');
+            loadProducts();
+        }
+
+        function showFarmers() {
+            hideAllSections();
+            document.getElementById('farmers-section').classList.remove('hidden');
+            updateStatus('👨‍🌾 ખેડૂતો સેક્શન | 🤖 AI Assistant Available');
+        }
+
+        function showOrders() {
+            hideAllSections();
+            document.getElementById('orders-section').classList.remove('hidden');
+            updateStatus('📋 ઓર્ડર્સ સેક્શન | 🤖 AI Assistant Available');
+        }
+
+        function showAI() {
+            toggleAIChat();
+        }
+
+        function hideAllSections() {
+            document.getElementById('products-section').classList.add('hidden');
+            document.getElementById('farmers-section').classList.add('hidden');
+            document.getElementById('orders-section').classList.add('hidden');
+        }
+
+        function updateStatus(message) {
+            document.getElementById('status').textContent = message;
+            console.log(message);
+        }
+
+        // Placeholder functions
+        function editProduct(id) {
+            askAI('ઉત્પાદન સંપાદન માર્ગદર્શન');
+        }
+
+        function addFarmer() {
+            askAI('નવા ખેડૂત તરીકે રજિસ્ટ્રેશન પ્રક્રિયા');
+        }
+
+        function addOrder() {
+            askAI('ઓર્ડર કરવાની પ્રક્રિયા');
+        }
+    </script>
+</body>
+</html>

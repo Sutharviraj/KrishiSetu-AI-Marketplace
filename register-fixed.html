@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KrishiSetu - Farmer Registration</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="register-card">
+            <div class="logo">
+                <div class="logo-icon">👨‍🌾</div>
+                <h1>Farmer Registration</h1>
+                <p class="tagline">ખેડૂત નોંધણી</p>
+                <p class="subtitle">Join our farming community</p>
+            </div>
+            
+            <form id="registerForm" class="form">
+                <div class="input-group">
+                    <input id="name" type="text" placeholder="👤 Full Name" required>
+                </div>
+                <div class="input-group">
+                    <input id="phone" type="tel" placeholder="📱 Phone Number" required>
+                </div>
+                <div class="input-group">
+                    <input id="location" type="text" placeholder="🏠 Village / Location" required>
+                </div>
+                <div class="input-group">
+                    <input id="email" type="email" placeholder="📧 Email Address" required>
+                </div>
+                <div class="input-group">
+                    <input id="password" type="password" placeholder="🔒 Password" required>
+                </div>
+                
+                <button type="button" class="btn primary-btn" onclick="handleRegister()">
+                    <span class="btn-text">Register / નોંધણી કરો</span>
+                </button>
+                
+                <div class="form-footer">
+                    <p>Already have an account? <a href="index.html" class="link">Login Here</a></p>
+                </div>
+            </form>
+        </div>
+        
+        <div class="footer">
+            <p>Made with ❤️ for Indian Farmers</p>
+        </div>
+    </div>
+    
+    <!-- Load Supabase SDK first -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    
+    <!-- Then load our auth code -->
+    <script>
+        // Initialize Supabase
+        const { createClient } = supabase;
+        
+        const SUPABASE_URL = "https://yifxjesvzleysizlokrr.supabase.co";
+        const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InlpZnhqZXN2emxleXNpemxva3JyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzE1NzMwNzEsImV4cCI6MjA4NzE0OTA3MX0.gYYD9eunAVwJTzBykmxgpNjEJJ1Cm5HScJGzY3LEQJE";
+        
+        const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+        // Show loading state
+        const showLoading = (button) => {
+            if (button) {
+                button.disabled = true;
+                button.innerHTML = '<span class="loading-spinner"></span> Processing...';
+            }
+        };
+
+        // Hide loading state
+        const hideLoading = (button, originalText) => {
+            if (button) {
+                button.disabled = false;
+                button.innerHTML = originalText;
+            }
+        };
+
+        // Show error message
+        const showError = (message) => {
+            console.error('Auth Error:', message);
+            alert(`❌ Error: ${message}`);
+        };
+
+        // Show success message
+        const showSuccess = (message) => {
+            console.log('Auth Success:', message);
+            alert(`✅ ${message}`);
+        };
+
+        // Validate email format
+        const validateEmail = (email) => {
+            const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return re.test(email);
+        };
+
+        // Validate phone number (basic validation for Indian numbers)
+        const validatePhone = (phone) => {
+            const re = /^[6-9]\d{9}$/;
+            return re.test(phone);
+        };
+
+        // Registration function
+        window.handleRegister = async () => {
+            const button = event.target;
+            const originalText = button.innerHTML;
+            showLoading(button);
+
+            try {
+                // Get form values
+                const name = document.getElementById('name').value.trim();
+                const phone = document.getElementById('phone').value.trim();
+                const location = document.getElementById('location').value.trim();
+                const email = document.getElementById('email').value.trim();
+                const password = document.getElementById('password').value;
+
+                // Validation
+                if (!name || !phone || !location || !email || !password) {
+                    throw new Error('Please fill in all fields');
+                }
+
+                if (!validateEmail(email)) {
+                    throw new Error('Please enter a valid email address');
+                }
+
+                if (!validatePhone(phone)) {
+                    throw new Error('Please enter a valid 10-digit phone number');
+                }
+
+                if (password.length < 6) {
+                    throw new Error('Password must be at least 6 characters long');
+                }
+
+                // Sign up user with metadata
+                const { data, error } = await supabase.auth.signUp({
+                    email: email,
+                    password: password,
+                    options: {
+                        data: {
+                            name: name,
+                            phone: phone,
+                            location: location,
+                            role: 'farmer'
+                        }
+                    }
+                });
+
+                if (error) {
+                    throw error;
+                }
+
+                showSuccess('Registration successful! Please check your email to verify your account.');
+                
+                // Redirect to login after 2 seconds
+                setTimeout(() => {
+                    window.location.href = 'index.html';
+                }, 2000);
+
+            } catch (error) {
+                showError(error.message);
+            } finally {
+                hideLoading(button, originalText);
+            }
+        };
+
+        // Add form validation
+        document.addEventListener('DOMContentLoaded', () => {
+            const inputs = document.querySelectorAll('input[required]');
+            inputs.forEach(input => {
+                input.addEventListener('blur', () => {
+                    if (input.value && input.type === 'email' && !validateEmail(input.value)) {
+                        input.style.borderColor = '#ff5252';
+                    } else if (input.value && input.type === 'tel' && !validatePhone(input.value)) {
+                        input.style.borderColor = '#ff5252';
+                    } else {
+                        input.style.borderColor = '#e0e0e0';
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>

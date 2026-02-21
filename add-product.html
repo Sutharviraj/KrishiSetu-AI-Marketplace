@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KrishiSetu - Add Product</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="container">
+        <header class="page-header">
+            <h1>� Add New Crop</h1>
+            <p class="subtitle">નવી પાક ઉમેરો</p>
+        </header>
+
+        <div class="product-form">
+            <form id="addProductForm" class="form">
+                <!-- Image Upload Section -->
+                <div class="image-upload-section">
+                    <div class="image-preview" id="imagePreview">
+                        <div class="upload-placeholder">
+                            <span class="upload-icon">📷</span>
+                            <p>Click to upload crop photo</p>
+                            <small>Take a clear photo of your produce</small>
+                        </div>
+                    </div>
+                    <input type="file" id="productImage" accept="image/*" capture="environment" style="display: none;">
+                    <button type="button" class="btn secondary-btn" onclick="document.getElementById('productImage').click()">
+                        📷 Choose Photo
+                    </button>
+                </div>
+
+                <!-- Product Details -->
+                <div class="form-section">
+                    <h3>Crop Details</h3>
+                    
+                    <div class="input-group">
+                        <input id="productName" type="text" placeholder="🌽 Crop Name (e.g., Tomatoes, Wheat)" required>
+                    </div>
+                    
+                    <div class="input-row">
+                        <div class="input-group half">
+                            <input id="price" type="number" placeholder="💰 Price per kg" step="0.01" required>
+                        </div>
+                        <div class="input-group half">
+                            <input id="quantity" type="number" placeholder="⚖️ Quantity (kg)" required>
+                        </div>
+                    </div>
+                    
+                    <div class="input-group">
+                        <textarea id="description" placeholder="📝 Description (optional)" rows="3"></textarea>
+                    </div>
+                </div>
+
+                <button type="button" class="btn primary-btn" onclick="uploadProduct()">
+                    <span class="btn-text">🚀 Upload Crop</span>
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Bottom Navigation -->
+    <nav class="bottom-nav">
+        <a href="dashboard.html" class="nav-item">
+            <span class="nav-icon">🏠</span>
+            <span class="nav-label">Home</span>
+        </a>
+        <a href="add-product.html" class="nav-item active">
+            <span class="nav-icon">➕</span>
+            <span class="nav-label">Add</span>
+        </a>
+        <a href="products.html" class="nav-item">
+            <span class="nav-icon">🛒</span>
+            <span class="nav-label">Market</span>
+        </a>
+        <a href="orders.html" class="nav-item">
+            <span class="nav-icon">📦</span>
+            <span class="nav-label">Orders</span>
+        </a>
+    </nav>
+
+    <script type="module" src="js/product.js"></script>
+</body>
+</html>

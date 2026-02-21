@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="gu">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Help - કૃષિસેતુ</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+        
+        * {
+            font-family: 'Poppins', sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        
+        .glass-morphism {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .btn-gradient {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            transition: all 0.3s ease;
+        }
+        
+        .btn-gradient:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        }
+        
+        .floating-shapes {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: -1;
+        }
+        
+        .shape {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            animation: float-shape 20s infinite ease-in-out;
+        }
+        
+        .shape:nth-child(1) {
+            width: 80px;
+            height: 80px;
+            left: 10%;
+            animation-delay: 0s;
+        }
+        
+        .shape:nth-child(2) {
+            width: 120px;
+            height: 120px;
+            right: 20%;
+            animation-delay: 2s;
+        }
+        
+        .shape:nth-child(3) {
+            width: 60px;
+            height: 60px;
+            left: 80%;
+            animation-delay: 4s;
+        }
+        
+        @keyframes float-shape {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            33% { transform: translateY(-100px) rotate(120deg); }
+            66% { transform: translateY(-50px) rotate(240deg); }
+        }
+    </style>
+</head>
+<body>
+    <!-- Floating Background Shapes -->
+    <div class="floating-shapes">
+        <div class="shape"></div>
+        <div class="shape"></div>
+        <div class="shape"></div>
+    </div>
+
+    <!-- Header -->
+    <header class="glass-morphism shadow-lg sticky top-0 z-40">
+        <div class="max-w-7xl mx-auto px-4 py-4">
+            <div class="flex justify-between items-center">
+                <div class="flex items-center gap-3">
+                    <div class="w-12 h-12 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full flex items-center justify-center text-white text-xl">
+                        🌾
+                    </div>
+                    <div>
+                        <h1 class="text-2xl font-bold bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">કૃષિસેતુ</h1>
+                        <p class="text-xs text-gray-600">AI Powered Marketplace</p>
+                    </div>
+                </div>
+                <nav class="flex gap-3 items-center">
+                    <a href="homepage.html" class="px-4 py-2 bg-blue-500 text-white rounded-full hover:bg-blue-600 transition-all hover:scale-105">
+                        <i class="fas fa-home mr-2"></i>Home
+                    </a>
+                    <a href="products-page.html" class="px-4 py-2 bg-green-500 text-white rounded-full hover:bg-green-600 transition-all hover:scale-105">
+                        <i class="fas fa-box mr-2"></i>Products
+                    </a>
+                    <a href="farmers-page.html" class="px-4 py-2 bg-orange-500 text-white rounded-full hover:bg-orange-600 transition-all hover:scale-105">
+                        <i class="fas fa-user-tie mr-2"></i>Farmers
+                    </a>
+                    <a href="services.html" class="px-4 py-2 bg-purple-500 text-white rounded-full hover:bg-purple-600 transition-all hover:scale-105">
+                        <i class="fas fa-cogs mr-2"></i>Services
+                    </a>
+                    <a href="about.html" class="px-4 py-2 bg-pink-500 text-white rounded-full hover:bg-pink-600 transition-all hover:scale-105">
+                        <i class="fas fa-info-circle mr-2"></i>About
+                    </a>
+                    <a href="contact.html" class="px-4 py-2 bg-indigo-500 text-white rounded-full hover:bg-indigo-600 transition-all hover:scale-105">
+                        <i class="fas fa-phone mr-2"></i>Contact
+                    </a>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="max-w-7xl mx-auto px-4 py-8">
+        <!-- Hero Section -->
+        <div class="glass-morphism rounded-3xl p-8 mb-8 text-center">
+            <h1 class="text-4xl font-bold mb-4">
+                <i class="fas fa-question-circle mr-3"></i>Help Center
+            </h1>
+            <p class="text-gray-600 text-lg">Find answers to common questions and get support</p>
+        </div>
+
+        <!-- Search Help -->
+        <div class="glass-morphism rounded-2xl p-6 mb-8">
+            <div class="flex gap-4">
+                <div class="flex-1">
+                    <input type="text" id="searchHelp" placeholder="Search for help..." class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:border-purple-500">
+                </div>
+                <button onclick="searchHelp()" class="px-6 py-3 btn-gradient text-white rounded-lg">
+                    <i class="fas fa-search mr-2"></i>Search
+                </button>
+            </div>
+        </div>
+
+        <!-- Help Categories -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+            <!-- Getting Started -->
+            <div class="glass-morphism rounded-2xl p-6">
+                <div class="text-3xl mb-4">🚀</div>
+                <h3 class="text-xl font-bold mb-4">Getting Started</h3>
+                <div class="space-y-3">
+                    <div class="cursor-pointer hover:text-purple-600" onclick="showHelp('getting-started', 'register')">
+                        <i class="fas fa-user-plus mr-2"></i>How to Register
+                    </div>
+                    <div class="cursor-pointer hover:text-purple-600" onclick="showHelp('getting-started', 'first-product')">
+                        <i class="fas fa-box mr-2"></i>Selling First Product
+                    </div>
+                    <div class="cursor-pointer hover:text-purple-600" onclick="showHelp('getting-started', 'buying')">
+                        <i class="fas fa-shopping-cart mr-2"></i>How to Buy
+                    </div>
+                    <div class="cursor-pointer hover:text-purple-600" onclick="showHelp('getting-started', 'profile')">
+                        <i class="fas fa-user mr-2"></i>Setting Up Profile
+                    </div>
+                </div>
+            </div>
+
+            <!-- AI Assistant -->
+            <div class="glass-morphism rounded-2xl p-6">
+                <div class="text-3xl mb-4">🤖</div>
+                <h3 class="text-xl font-bold mb-4">AI Assistant</h3>
+                <div class="space-y-3">
+                    <div class="cursor-pointer hover:text-purple-600" onclick="showHelp('ai', 'basic-questions')">
+                        <i class="fas fa-comments mr-2"></i>Basic Questions
+                    </div>
+                    <div class="cursor-pointer hover:text-purple-600" onclick="showHelp('ai', 'crop-advice')">
+                        <i class="fas fa-seedling mr-2"></i>Crop Advice
+                    </div>
+                    <div class="cursor-pointer hover:text-purple-600" onclick="showHelp('ai', 'market-prices')">
+                        <i class="fas fa-chart-line mr-2"></i>Market Prices
+                    </div>
+                    <div class="cursor-pointer hover:text-purple-600" onclick="showHelp('ai', 'weather')">
+                        <i class="fas fa-cloud-sun mr-2"></i>Weather Updates
+                    </div>
+                </div>
+            </div>
+
+            <!-- Account & Payments -->
+            <div class="glass-morphism rounded-2xl p-6">
+                <div class="text-3xl mb-4">💳</div>
+                <h3 class="text-xl font-bold mb-4">Account & Payments</h3>
+                <div class="space-y-3">
+                    <div class="cursor-pointer hover:text-purple-600" onclick="showHelp('account', 'login-issues')">
+                        <i class="fas fa-sign-in-alt mr-2"></i>Login Problems
+                    </div>
+                    <div class="cursor-pointer hover:text-purple-600" onclick="showHelp('account', 'payment')">
+                        <i class="fas fa-credit-card mr-2"></i>Payment Issues
+                    </div>
+                    <div class="cursor-pointer hover:text-purple-600" onclick="showHelp('account', 'verification')">
+                        <i class="fas fa-check-circle mr-2"></i>Account Verification
+                    </div>
+                    <div class="cursor-pointer hover:text-purple-600" onclick="showHelp('account', 'security')">
+                        <i class="fas fa-shield-alt mr-2"></i>Security Settings
+                    </div>
+                </div>
+            </div>
+
+            <!-- Technical Support -->
+            <div class="glass-morphism rounded-2xl p-6">
+                <div class="text-3xl mb-4">🔧</div>
+                <h3 class="text-xl font-bold mb-4">Technical Support</h3>
+                <div class="space-y-3">
+                    <div class="cursor-pointer hover:text-purple-600" onclick="showHelp('technical', 'app-issues')">
+                        <i class="fas fa-mobile-alt mr-2"></i>App Problems
+                    </div>
+                    <div class="cursor-pointer hover:text-purple-600" onclick="showHelp('technical', 'upload')">
+                        <i class="fas fa-upload mr-2"></i>Upload Issues
+                    </div>
+                    <div class="cursor-pointer hover:text-purple-600" onclick="showHelp('technical', 'browser')">
+                        <i class="fas fa-globe mr-2"></i>Browser Support
+                    </div>
+                    <div class="cursor-pointer hover:text-purple-600" onclick="showHelp('technical', 'slow')">
+                        <i class="fas fa-turtle mr-2"></i>Slow Performance
+                    </div>
+                </div>
+            </div>
+
+            <!-- Farmers -->
+            <div class="glass-morphism rounded-2xl p-6">
+                <div class="text-3xl mb-4">👨‍🌾</div>
+                <h3 class="text-xl font-bold mb-4">For Farmers</h3>
+                <div class="space-y-3">
+                    <div class="cursor-pointer hover:text-purple-600" onclick="showHelp('farmers', 'listing')">
+                        <i class="fas fa-list mr-2"></i>Product Listing
+                    </div>
+                    <div class="cursor-pointer hover:text-purple-600" onclick="showHelp('farmers', 'pricing')">
+                        <i class="fas fa-tag mr-2"></i>Setting Prices
+                    </div>
+                    <div class="cursor-pointer hover:text-purple-600" onclick="showHelp('farmers', 'delivery')">
+                        <i class="fas fa-truck mr-2"></i>Delivery Setup
+                    </div>
+                    <div class="cursor-pointer hover:text-purple-600" onclick="showHelp('farmers', 'certification')">
+                        <i class="fas fa-certificate mr-2"></i>Organic Certification
+                    </div>
+                </div>
+            </div>
+
+            <!-- Buyers -->
+            <div class="glass-morphism rounded-2xl p-6">
+                <div class="text-3xl mb-4">🛒</div>
+                <h3 class="text-xl font-bold mb-4">For Buyers</h3>
+                <div class="space-y-3">
+                    <div class="cursor-pointer hover:text-purple-600" onclick="showHelp('buyers', 'finding')">
+                        <i class="fas fa-search mr-2"></i>Finding Products
+                    </div>
+                    <div class="cursor-pointer hover:text-purple-600" onclick="showHelp('buyers', 'ordering')">
+                        <i class="fas fa-shopping-basket mr-2"></i>Placing Orders
+                    </div>
+                    <div class="cursor-pointer hover:text-purple-600" onclick="showHelp('buyers', 'quality')">
+                        <i class="fas fa-star mr-2"></i>Quality Check
+                    </div>
+                    <div class="cursor-pointer hover:text-purple-600" onclick="showHelp('buyers', 'returns')">
+                        <i class="fas fa-undo mr-2"></i>Returns & Refunds
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- FAQ Section -->
+        <div class="glass-morphism rounded-3xl p-8 mb-8">
+            <h2 class="text-3xl font-bold text-center mb-8">Frequently Asked Questions</h2>
+            <div class="space-y-4">
+                <div class="border-b border-gray-200 pb-4">
+                    <button onclick="toggleFAQ(1)" class="w-full text-left flex justify-between items-center hover:text-purple-600">
+                        <span class="font-semibold">How do I register as a farmer?</span>
+                        <i class="fas fa-chevron-down" id="faq-icon-1"></i>
+                    </button>
+                    <div id="faq-content-1" class="hidden mt-3 text-gray-600">
+                        To register as a farmer: 1) Click on "Register" button 2) Fill in your details 3) Upload verification documents 4) Wait for approval (usually within 24 hours)
+                    </div>
+                </div>
+                
+                <div class="border-b border-gray-200 pb-4">
+                    <button onclick="toggleFAQ(2)" class="w-full text-left flex justify-between items-center hover:text-purple-600">
+                        <span class="font-semibold">How does the AI Assistant work?</span>
+                        <i class="fas fa-chevron-down" id="faq-icon-2"></i>
+                    </button>
+                    <div id="faq-content-2" class="hidden mt-3 text-gray-600">
+                        Our AI Assistant uses advanced machine learning to provide farming advice. Simply type your question in Gujarati or English, and get instant answers about crops, pests, market prices, and more.
+                    </div>
+                </div>
+                
+                <div class="border-b border-gray-200 pb-4">
+                    <button onclick="toggleFAQ(3)" class="w-full text-left flex justify-between items-center hover:text-purple-600">
+                        <span class="font-semibold">What payment methods are accepted?</span>
+                        <i class="fas fa-chevron-down" id="faq-icon-3"></i>
+                    </button>
+                    <div id="faq-content-3" class="hidden mt-3 text-gray-600">
+                        We accept: UPI, Credit/Debit Cards, Net Banking, Cash on Delivery, and Wallet payments. All transactions are secure and encrypted.
+                    </div>
+                </div>
+                
+                <div class="border-b border-gray-200 pb-4">
+                    <button onclick="toggleFAQ(4)" class="w-full text-left flex justify-between items-center hover:text-purple-600">
+                        <span class="font-semibold">How can I contact customer support?</span>
+                        <i class="fas fa-chevron-down" id="faq-icon-4"></i>
+                    </button>
+                    <div id="faq-content-4" class="hidden mt-3 text-gray-600">
+                        You can reach us through: 1) 24/7 AI Assistant on the platform 2) Phone: +91 98765 43210 3) Email: support@krishisetu.com 4) Live chat on website
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Contact Support -->
+        <div class="glass-morphism rounded-3xl p-8 text-center">
+            <h2 class="text-3xl font-bold mb-4">Still Need Help?</h2>
+            <p class="text-gray-600 mb-6">Our support team is here to assist you</p>
+            <div class="flex flex-col md:flex-row gap-4 justify-center">
+                <button onclick="window.location.href='contact.html'" class="px-6 py-3 btn-gradient text-white rounded-lg">
+                    <i class="fas fa-envelope mr-2"></i>Contact Support
+                </button>
+                <button onclick="window.location.href='ai-assistant.html'" class="px-6 py-3 bg-green-500 text-white rounded-lg hover:bg-green-600 transition-all">
+                    <i class="fas fa-robot mr-2"></i>Ask AI Assistant
+                </button>
+                <button onclick="callSupport()" class="px-6 py-3 bg-orange-500 text-white rounded-lg hover:bg-orange-600 transition-all">
+                    <i class="fas fa-phone mr-2"></i>Call Now
+                </button>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="glass-morphism rounded-t-3xl p-8 mt-12">
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+            <div>
+                <h3 class="font-bold text-lg mb-3">કૃષિસેતુ</h3>
+                <p class="text-gray-600">AI Powered Marketplace for Farmers</p>
+            </div>
+            <div>
+                <h3 class="font-bold text-lg mb-3">Quick Links</h3>
+                <ul class="space-y-2">
+                    <li><a href="homepage.html" class="text-gray-600 hover:text-purple-600">Home</a></li>
+                    <li><a href="products-page.html" class="text-gray-600 hover:text-purple-600">Products</a></li>
+                    <li><a href="farmers-page.html" class="text-gray-600 hover:text-purple-600">Farmers</a></li>
+                </ul>
+            </div>
+            <div>
+                <h3 class="font-bold text-lg mb-3">Support</h3>
+                <ul class="space-y-2">
+                    <li><a href="about.html" class="text-gray-600 hover:text-purple-600">About Us</a></li>
+                    <li><a href="contact.html" class="text-gray-600 hover:text-purple-600">Contact</a></li>
+                    <li><a href="help.html" class="text-gray-600 hover:text-purple-600">Help</a></li>
+                </ul>
+            </div>
+            <div>
+                <h3 class="font-bold text-lg mb-3">Follow Us</h3>
+                <div class="flex gap-3">
+                    <a href="#" class="w-10 h-10 bg-blue-500 rounded-full flex items-center justify-center text-white hover:bg-blue-600">
+                        <i class="fab fa-facebook-f"></i>
+                    </a>
+                    <a href="#" class="w-10 h-10 bg-pink-500 rounded-full flex items-center justify-center text-white hover:bg-pink-600">
+                        <i class="fab fa-instagram"></i>
+                    </a>
+                    <a href="#" class="w-10 h-10 bg-blue-400 rounded-full flex items-center justify-center text-white hover:bg-blue-500">
+                        <i class="fab fa-twitter"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="text-center mt-8 pt-6 border-t border-gray-200">
+            <p class="text-gray-600">&copy; 2024 કૃષિસેતુ. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        function toggleFAQ(id) {
+            const content = document.getElementById(`faq-content-${id}`);
+            const icon = document.getElementById(`faq-icon-${id}`);
+            
+            if (content.classList.contains('hidden')) {
+                content.classList.remove('hidden');
+                icon.classList.remove('fa-chevron-down');
+                icon.classList.add('fa-chevron-up');
+            } else {
+                content.classList.add('hidden');
+                icon.classList.remove('fa-chevron-up');
+                icon.classList.add('fa-chevron-down');
+            }
+        }
+
+        function showHelp(category, topic) {
+            const helpContent = {
+                'getting-started': {
+                    'register': 'To register: 1) Click Register 2) Choose Farmer/Buyer 3) Fill details 4) Verify email 5) Complete profile',
+                    'first-product': 'To sell: 1) Login 2) Click "Add Product" 3) Upload photos 4) Set price 5) Add description 6) Publish',
+                    'buying': 'To buy: 1) Browse products 2) Click "Buy" 3) Select quantity 4) Add to cart 5) Checkout 6) Choose payment',
+                    'profile': 'Profile setup: 1) Go to Settings 2) Update personal info 3) Add farm details 4) Upload documents 5) Save changes'
+                },
+                'ai': {
+                    'basic-questions': 'AI Assistant can help with: crop selection, pest control, irrigation, fertilizers, market trends, weather, government schemes',
+                    'crop-advice': 'Ask about: planting time, soil preparation, seed selection, fertilizer schedule, harvesting time, crop rotation',
+                    'market-prices': 'Get real-time prices for: vegetables, fruits, grains, dairy products. Ask "Today\'s market price for [crop]"',
+                    'weather': 'Weather updates: daily forecast, rainfall prediction, temperature alerts, best farming times, storm warnings'
+                },
+                'account': {
+                    'login-issues': 'Login problems: 1) Check email/password 2) Reset password 3) Clear browser cache 4) Try different browser 5) Contact support',
+                    'payment': 'Payment issues: 1) Check card details 2) Verify bank balance 3) Try UPI 4) Use different payment method 5) Contact bank',
+                    'verification': 'Account verification: 1) Upload valid ID 2) Provide farm documents 3) Wait 24-48 hours 4) Check email for updates',
+                    'security': 'Security: 1) Use strong password 2) Enable 2FA 3) Don\'t share credentials 4) Log out from shared devices 5) Update regularly'
+                }
+            };
+
+            const content = helpContent[category]?.[topic] || 'Help content not available. Please contact support.';
+            alert(`${category.toUpperCase()} - ${topic.toUpperCase()}\n\n${content}\n\nFor more help, contact support@krishisetu.com`);
+        }
+
+        function searchHelp() {
+            const searchTerm = document.getElementById('searchHelp').value.toLowerCase();
+            if (!searchTerm) {
+                alert('Please enter a search term');
+                return;
+            }
+            alert(`Search results for "${searchTerm}":\n\nFound 5 help articles:\n1. How to register as farmer\n2. Setting up product listings\n3. Payment methods\n4. Using AI Assistant\n5. Contacting support\n\nClick on any topic to learn more.`);
+        }
+
+        function callSupport() {
+            alert('Calling Support...\n\nPhone: +91 98765 43210\nWhatsApp: +91 98765 43210\nAvailable: 9AM - 6PM, Mon-Sat\n\nFor 24/7 help, use AI Assistant!');
+        }
+    </script>
+</body>
+</html>

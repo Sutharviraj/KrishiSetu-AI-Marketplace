@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="gu">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Farmers - કૃષિસેતુ</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+        
+        * {
+            font-family: 'Poppins', sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        
+        .glass-morphism {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .farmer-card {
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+        }
+        
+        .farmer-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+        }
+        
+        .farmer-avatar {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 32px;
+            font-weight: bold;
+        }
+        
+        .btn-gradient {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            transition: all 0.3s ease;
+        }
+        
+        .btn-gradient:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        }
+        
+        .floating-shapes {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: -1;
+        }
+        
+        .shape {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            animation: float-shape 20s infinite ease-in-out;
+        }
+        
+        .shape:nth-child(1) {
+            width: 80px;
+            height: 80px;
+            left: 10%;
+            animation-delay: 0s;
+        }
+        
+        .shape:nth-child(2) {
+            width: 120px;
+            height: 120px;
+            right: 20%;
+            animation-delay: 2s;
+        }
+        
+        .shape:nth-child(3) {
+            width: 60px;
+            height: 60px;
+            left: 80%;
+            animation-delay: 4s;
+        }
+        
+        @keyframes float-shape {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            33% { transform: translateY(-100px) rotate(120deg); }
+            66% { transform: translateY(-50px) rotate(240deg); }
+        }
+    </style>
+</head>
+<body>
+    <!-- Floating Background Shapes -->
+    <div class="floating-shapes">
+        <div class="shape"></div>
+        <div class="shape"></div>
+        <div class="shape"></div>
+    </div>
+
+    <!-- Header -->
+    <header class="glass-morphism shadow-lg sticky top-0 z-40">
+        <div class="max-w-7xl mx-auto px-4 py-4">
+            <div class="flex justify-between items-center">
+                <div class="flex items-center gap-3">
+                    <div class="w-12 h-12 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full flex items-center justify-center text-white text-xl">
+                        🌾
+                    </div>
+                    <div>
+                        <h1 class="text-2xl font-bold bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">કૃષિસેતુ</h1>
+                        <p class="text-xs text-gray-600">AI Powered Marketplace</p>
+                    </div>
+                </div>
+                <nav class="flex gap-3 items-center">
+                    <a href="homepage.html" class="px-4 py-2 bg-blue-500 text-white rounded-full hover:bg-blue-600 transition-all hover:scale-105">
+                        <i class="fas fa-home mr-2"></i>Home
+                    </a>
+                    <a href="products-page.html" class="px-4 py-2 bg-green-500 text-white rounded-full hover:bg-green-600 transition-all hover:scale-105">
+                        <i class="fas fa-box mr-2"></i>Products
+                    </a>
+                    <a href="farmers-page.html" class="px-4 py-2 bg-orange-500 text-white rounded-full hover:bg-orange-600 transition-all hover:scale-105">
+                        <i class="fas fa-user-tie mr-2"></i>Farmers
+                    </a>
+                    <a href="services.html" class="px-4 py-2 bg-purple-500 text-white rounded-full hover:bg-purple-600 transition-all hover:scale-105">
+                        <i class="fas fa-cogs mr-2"></i>Services
+                    </a>
+                    <a href="about.html" class="px-4 py-2 bg-pink-500 text-white rounded-full hover:bg-pink-600 transition-all hover:scale-105">
+                        <i class="fas fa-info-circle mr-2"></i>About
+                    </a>
+                    <a href="contact.html" class="px-4 py-2 bg-indigo-500 text-white rounded-full hover:bg-indigo-600 transition-all hover:scale-105">
+                        <i class="fas fa-phone mr-2"></i>Contact
+                    </a>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="max-w-7xl mx-auto px-4 py-8">
+        <!-- Page Header -->
+        <div class="glass-morphism rounded-3xl p-8 mb-8">
+            <h1 class="text-4xl font-bold mb-4">
+                <i class="fas fa-user-tie mr-3"></i>Our Farmers
+            </h1>
+            <p class="text-gray-600 mb-6">Meet our dedicated farmers who bring fresh, organic produce to your table</p>
+            
+            <!-- Search -->
+            <div class="flex gap-4">
+                <div class="flex-1">
+                    <input type="text" id="searchInput" placeholder="Search farmers by name or location..." class="w-full px-4 py-3 rounded-full border border-gray-300 focus:outline-none focus:border-purple-500">
+                </div>
+                <select id="locationFilter" class="px-4 py-3 rounded-full border border-gray-300 focus:outline-none focus:border-purple-500">
+                    <option value="">All Locations</option>
+                    <option value="ગાંધીનગર">ગાંધીનગર</option>
+                    <option value="અમદાવાદ">અમદાવાદ</option>
+                    <option value="સુરત">સુરત</option>
+                    <option value="રાજકોટ">રાજકોટ</option>
+                    <option value="વડોદરા">વડોદરા</option>
+                </select>
+                <button onclick="filterFarmers()" class="px-6 py-3 btn-gradient text-white rounded-full">
+                    <i class="fas fa-search mr-2"></i>Search
+                </button>
+            </div>
+        </div>
+
+        <!-- Farmers Grid -->
+        <div id="farmers-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+            <!-- Farmers will load here -->
+        </div>
+
+        <!-- Load More -->
+        <div class="text-center mt-8">
+            <button onclick="loadMoreFarmers()" class="px-8 py-4 btn-gradient text-white rounded-full">
+                <i class="fas fa-plus mr-2"></i>Load More Farmers
+            </button>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="glass-morphism rounded-t-3xl p-8 mt-12">
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+            <div>
+                <h3 class="font-bold text-lg mb-3">કૃષિસેતુ</h3>
+                <p class="text-gray-600">AI Powered Marketplace for Farmers</p>
+            </div>
+            <div>
+                <h3 class="font-bold text-lg mb-3">Quick Links</h3>
+                <ul class="space-y-2">
+                    <li><a href="homepage.html" class="text-gray-600 hover:text-purple-600">Home</a></li>
+                    <li><a href="products-page.html" class="text-gray-600 hover:text-purple-600">Products</a></li>
+                    <li><a href="farmers-page.html" class="text-gray-600 hover:text-purple-600">Farmers</a></li>
+                </ul>
+            </div>
+            <div>
+                <h3 class="font-bold text-lg mb-3">Support</h3>
+                <ul class="space-y-2">
+                    <li><a href="about.html" class="text-gray-600 hover:text-purple-600">About Us</a></li>
+                    <li><a href="contact.html" class="text-gray-600 hover:text-purple-600">Contact</a></li>
+                    <li><a href="help.html" class="text-gray-600 hover:text-purple-600">Help</a></li>
+                </ul>
+            </div>
+            <div>
+                <h3 class="font-bold text-lg mb-3">Follow Us</h3>
+                <div class="flex gap-3">
+                    <a href="#" class="w-10 h-10 bg-blue-500 rounded-full flex items-center justify-center text-white hover:bg-blue-600">
+                        <i class="fab fa-facebook-f"></i>
+                    </a>
+                    <a href="#" class="w-10 h-10 bg-pink-500 rounded-full flex items-center justify-center text-white hover:bg-pink-600">
+                        <i class="fab fa-instagram"></i>
+                    </a>
+                    <a href="#" class="w-10 h-10 bg-blue-400 rounded-full flex items-center justify-center text-white hover:bg-blue-500">
+                        <i class="fab fa-twitter"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="text-center mt-8 pt-6 border-t border-gray-200">
+            <p class="text-gray-600">&copy; 2024 કૃષિસેતુ. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        let allFarmers = [];
+        let filteredFarmers = [];
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            loadFarmers();
+        });
+
+        // Load sample farmers
+        function loadFarmers() {
+            allFarmers = [
+                {
+                    id: 1,
+                    name: 'રમેશભાઈ પટેલ',
+                    location: 'ગાંધીનગર',
+                    experience: '15 વર્ષ',
+                    specialty: 'શાકભાજી, ફળો',
+                    rating: 4.8,
+                    products: 25,
+                    phone: '+91 98765 43210',
+                    image: '👨‍🌾'
+                },
+                {
+                    id: 2,
+                    name: 'દિલીપભાઈ શાહ',
+                    location: 'અમદાવાદ',
+                    experience: '20 વર્ષ',
+                    specialty: 'અનાજ, મસાલા',
+                    rating: 4.9,
+                    products: 30,
+                    phone: '+91 98765 43211',
+                    image: '🧑‍🌾'
+                },
+                {
+                    id: 3,
+                    name: 'ગીરીશભાઈ દેસાઈ',
+                    location: 'સુરત',
+                    experience: '12 વર્ષ',
+                    specialty: 'દૂધ, ડેરી ઉત્પાદનો',
+                    rating: 4.7,
+                    products: 15,
+                    phone: '+91 98765 43212',
+                    image: '👨‍🌾'
+                },
+                {
+                    id: 4,
+                    name: 'મહેશભાઈ સોલંકી',
+                    location: 'રાજકોટ',
+                    experience: '18 વર્ષ',
+                    specialty: 'કપાસ, મગફળી',
+                    rating: 4.6,
+                    products: 20,
+                    phone: '+91 98765 43213',
+                    image: '🧑‍🌾'
+                },
+                {
+                    id: 5,
+                    name: 'રાજેશભાઈ ચૌધરી',
+                    location: 'વડોદરા',
+                    experience: '10 વર્ષ',
+                    specialty: 'તેલ, મગફળી',
+                    rating: 4.5,
+                    products: 18,
+                    phone: '+91 98765 43214',
+                    image: '👨‍🌾'
+                },
+                {
+                    id: 6,
+                    name: 'હર્ષભાઈ પરમાર',
+                    location: 'ગાંધીનગર',
+                    experience: '25 વર્ષ',
+                    specialty: 'બધા જ પ્રકારની ખેતી',
+                    rating: 4.9,
+                    products: 35,
+                    phone: '+91 98765 43215',
+                    image: '🧑‍🌾'
+                }
+            ];
+
+            filteredFarmers = allFarmers;
+            displayFarmers(filteredFarmers);
+        }
+
+        // Display farmers
+        function displayFarmers(farmers) {
+            const grid = document.getElementById('farmers-grid');
+            grid.innerHTML = '';
+
+            if (farmers.length === 0) {
+                grid.innerHTML = '<div class="col-span-full text-center py-12 text-white">No farmers found</div>';
+                return;
+            }
+
+            farmers.forEach(farmer => {
+                const card = document.createElement('div');
+                card.className = 'farmer-card';
+                card.innerHTML = `
+                    <div class="p-6">
+                        <div class="flex items-center mb-4">
+                            <div class="farmer-avatar mr-4">
+                                ${farmer.image}
+                            </div>
+                            <div>
+                                <h3 class="text-xl font-bold">${farmer.name}</h3>
+                                <p class="text-gray-600">
+                                    <i class="fas fa-map-marker-alt mr-1"></i>${farmer.location}
+                                </p>
+                            </div>
+                        </div>
+                        
+                        <div class="space-y-2 mb-4">
+                            <div class="flex justify-between">
+                                <span class="text-gray-600">અનુભવ:</span>
+                                <span class="font-semibold">${farmer.experience}</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-gray-600">વિશેષતા:</span>
+                                <span class="font-semibold">${farmer.specialty}</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-gray-600">રેટિંગ:</span>
+                                <span class="font-semibold text-yellow-500">
+                                    <i class="fas fa-star"></i> ${farmer.rating}
+                                </span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-gray-600">ઉત્પાદનો:</span>
+                                <span class="font-semibold">${farmer.products}</span>
+                            </div>
+                        </div>
+                        
+                        <div class="flex gap-2">
+                            <button onclick="viewFarmer(${farmer.id})" class="flex-1 px-3 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-all">
+                                <i class="fas fa-eye mr-1"></i>View
+                            </button>
+                            <button onclick="contactFarmer(${farmer.id})" class="flex-1 px-3 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 transition-all">
+                                <i class="fas fa-phone mr-1"></i>Contact
+                            </button>
+                        </div>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        // Filter farmers
+        function filterFarmers() {
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+            const location = document.getElementById('locationFilter').value;
+
+            filteredFarmers = allFarmers.filter(farmer => {
+                const matchesSearch = farmer.name.toLowerCase().includes(searchTerm) || 
+                                   farmer.location.toLowerCase().includes(searchTerm) ||
+                                   farmer.specialty.toLowerCase().includes(searchTerm);
+                const matchesLocation = !location || farmer.location === location;
+
+                return matchesSearch && matchesLocation;
+            });
+
+            displayFarmers(filteredFarmers);
+        }
+
+        // Farmer actions
+        function viewFarmer(farmerId) {
+            const farmer = allFarmers.find(f => f.id === farmerId);
+            if (farmer) {
+                alert(`Farmer Details:\n\nName: ${farmer.name}\nLocation: ${farmer.location}\nExperience: ${farmer.experience}\nSpecialty: ${farmer.specialty}\nRating: ${farmer.rating}\nProducts: ${farmer.products}\nPhone: ${farmer.phone}`);
+            }
+        }
+
+        function contactFarmer(farmerId) {
+            const farmer = allFarmers.find(f => f.id === farmerId);
+            if (farmer) {
+                alert(`Contact ${farmer.name}:\n\nPhone: ${farmer.phone}\nLocation: ${farmer.location}\n\nYou can call or WhatsApp them directly!`);
+            }
+        }
+
+        function loadMoreFarmers() {
+            alert('Loading more farmers... (Demo mode)');
+        }
+
+        // Search on enter
+        document.getElementById('searchInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                filterFarmers();
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="gu">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Products - કૃષિસેતુ</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+        
+        * {
+            font-family: 'Poppins', sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        
+        .glass-morphism {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .product-card {
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+        }
+        
+        .product-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+        }
+        
+        .product-image {
+            height: 200px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 60px;
+        }
+        
+        .btn-gradient {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            transition: all 0.3s ease;
+        }
+        
+        .btn-gradient:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        }
+        
+        .floating-shapes {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: -1;
+        }
+        
+        .shape {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            animation: float-shape 20s infinite ease-in-out;
+        }
+        
+        .shape:nth-child(1) {
+            width: 80px;
+            height: 80px;
+            left: 10%;
+            animation-delay: 0s;
+        }
+        
+        .shape:nth-child(2) {
+            width: 120px;
+            height: 120px;
+            right: 20%;
+            animation-delay: 2s;
+        }
+        
+        .shape:nth-child(3) {
+            width: 60px;
+            height: 60px;
+            left: 80%;
+            animation-delay: 4s;
+        }
+        
+        @keyframes float-shape {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            33% { transform: translateY(-100px) rotate(120deg); }
+            66% { transform: translateY(-50px) rotate(240deg); }
+        }
+    </style>
+</head>
+<body>
+    <!-- Floating Background Shapes -->
+    <div class="floating-shapes">
+        <div class="shape"></div>
+        <div class="shape"></div>
+        <div class="shape"></div>
+    </div>
+
+    <!-- Header -->
+    <header class="glass-morphism shadow-lg sticky top-0 z-40">
+        <div class="max-w-7xl mx-auto px-4 py-4">
+            <div class="flex justify-between items-center">
+                <div class="flex items-center gap-3">
+                    <div class="w-12 h-12 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full flex items-center justify-center text-white text-xl">
+                        🌾
+                    </div>
+                    <div>
+                        <h1 class="text-2xl font-bold bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">કૃષિસેતુ</h1>
+                        <p class="text-xs text-gray-600">AI Powered Marketplace</p>
+                    </div>
+                </div>
+                <nav class="flex gap-3 items-center">
+                    <a href="homepage.html" class="px-4 py-2 bg-blue-500 text-white rounded-full hover:bg-blue-600 transition-all hover:scale-105">
+                        <i class="fas fa-home mr-2"></i>Home
+                    </a>
+                    <a href="products-page.html" class="px-4 py-2 bg-green-500 text-white rounded-full hover:bg-green-600 transition-all hover:scale-105">
+                        <i class="fas fa-box mr-2"></i>Products
+                    </a>
+                    <a href="farmers.html" class="px-4 py-2 bg-orange-500 text-white rounded-full hover:bg-orange-600 transition-all hover:scale-105">
+                        <i class="fas fa-user-tie mr-2"></i>Farmers
+                    </a>
+                    <a href="services.html" class="px-4 py-2 bg-purple-500 text-white rounded-full hover:bg-purple-600 transition-all hover:scale-105">
+                        <i class="fas fa-cogs mr-2"></i>Services
+                    </a>
+                    <a href="about.html" class="px-4 py-2 bg-pink-500 text-white rounded-full hover:bg-pink-600 transition-all hover:scale-105">
+                        <i class="fas fa-info-circle mr-2"></i>About
+                    </a>
+                    <a href="contact.html" class="px-4 py-2 bg-indigo-500 text-white rounded-full hover:bg-indigo-600 transition-all hover:scale-105">
+                        <i class="fas fa-phone mr-2"></i>Contact
+                    </a>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="max-w-7xl mx-auto px-4 py-8">
+        <!-- Page Header -->
+        <div class="glass-morphism rounded-3xl p-8 mb-8">
+            <h1 class="text-4xl font-bold mb-4">
+                <i class="fas fa-box mr-3"></i>Fresh Products
+            </h1>
+            <p class="text-gray-600 mb-6">Direct from farmers to your home - Fresh, organic, and affordable</p>
+            
+            <!-- Search and Filter -->
+            <div class="flex flex-col md:flex-row gap-4">
+                <div class="flex-1">
+                    <input type="text" id="searchInput" placeholder="Search products..." class="w-full px-4 py-3 rounded-full border border-gray-300 focus:outline-none focus:border-purple-500">
+                </div>
+                <select id="categoryFilter" class="px-4 py-3 rounded-full border border-gray-300 focus:outline-none focus:border-purple-500">
+                    <option value="">All Categories</option>
+                    <option value="vegetables">Vegetables</option>
+                    <option value="fruits">Fruits</option>
+                    <option value="grains">Grains</option>
+                    <option value="dairy">Dairy</option>
+                    <option value="spices">Spices</option>
+                    <option value="seeds">Seeds</option>
+                </select>
+                <select id="priceFilter" class="px-4 py-3 rounded-full border border-gray-300 focus:outline-none focus:border-purple-500">
+                    <option value="">Price Range</option>
+                    <option value="0-50">₹0 - ₹50</option>
+                    <option value="50-100">₹50 - ₹100</option>
+                    <option value="100-200">₹100 - ₹200</option>
+                    <option value="200+">₹200+</option>
+                </select>
+                <button onclick="filterProducts()" class="px-6 py-3 btn-gradient text-white rounded-full">
+                    <i class="fas fa-search mr-2"></i>Search
+                </button>
+            </div>
+        </div>
+
+        <!-- Products Grid -->
+        <div id="products-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+            <!-- Products will load here -->
+        </div>
+
+        <!-- Load More -->
+        <div class="text-center mt-8">
+            <button onclick="loadMoreProducts()" class="px-8 py-4 btn-gradient text-white rounded-full">
+                <i class="fas fa-plus mr-2"></i>Load More Products
+            </button>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="glass-morphism rounded-t-3xl p-8 mt-12">
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+            <div>
+                <h3 class="font-bold text-lg mb-3">કૃષિસેતુ</h3>
+                <p class="text-gray-600">AI Powered Marketplace for Farmers</p>
+            </div>
+            <div>
+                <h3 class="font-bold text-lg mb-3">Quick Links</h3>
+                <ul class="space-y-2">
+                    <li><a href="homepage.html" class="text-gray-600 hover:text-purple-600">Home</a></li>
+                    <li><a href="products-page.html" class="text-gray-600 hover:text-purple-600">Products</a></li>
+                    <li><a href="farmers.html" class="text-gray-600 hover:text-purple-600">Farmers</a></li>
+                </ul>
+            </div>
+            <div>
+                <h3 class="font-bold text-lg mb-3">Support</h3>
+                <ul class="space-y-2">
+                    <li><a href="about.html" class="text-gray-600 hover:text-purple-600">About Us</a></li>
+                    <li><a href="contact.html" class="text-gray-600 hover:text-purple-600">Contact</a></li>
+                    <li><a href="help.html" class="text-gray-600 hover:text-purple-600">Help</a></li>
+                </ul>
+            </div>
+            <div>
+                <h3 class="font-bold text-lg mb-3">Follow Us</h3>
+                <div class="flex gap-3">
+                    <a href="#" class="w-10 h-10 bg-blue-500 rounded-full flex items-center justify-center text-white hover:bg-blue-600">
+                        <i class="fab fa-facebook-f"></i>
+                    </a>
+                    <a href="#" class="w-10 h-10 bg-pink-500 rounded-full flex items-center justify-center text-white hover:bg-pink-600">
+                        <i class="fab fa-instagram"></i>
+                    </a>
+                    <a href="#" class="w-10 h-10 bg-blue-400 rounded-full flex items-center justify-center text-white hover:bg-blue-500">
+                        <i class="fab fa-twitter"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="text-center mt-8 pt-6 border-t border-gray-200">
+            <p class="text-gray-600">&copy; 2024 કૃષિસેતુ. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Supabase Configuration
+        const { createClient } = supabase;
+        const SUPABASE_URL = "https://yifxjesvzleysizlokrr.supabase.co";
+        const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InlpZnhqZXN2emxleXNpemxva3JyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzE1NzMwNzEsImV4cCI6MjA4NzE0OTA3MX0.gYYD9eunAVwJTzBykmxgpNjEJJ1Cm5HScJGzY3LEQJE";
+        const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+        let allProducts = [];
+        let filteredProducts = [];
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', async () => {
+            await loadProducts();
+        });
+
+        // Load products from Supabase
+        async function loadProducts() {
+            try {
+                const { data, error } = await supabase
+                    .from('products')
+                    .select('*')
+                    .order('created_at', { ascending: false });
+
+                if (error) {
+                    if (error.code === 'PGRST116') {
+                        await createSampleProducts();
+                        return loadProducts();
+                    }
+                    throw error;
+                }
+
+                allProducts = data;
+                filteredProducts = data;
+                displayProducts(filteredProducts);
+            } catch (error) {
+                console.error('Error loading products:', error);
+            }
+        }
+
+        // Display products
+        function displayProducts(products) {
+            const grid = document.getElementById('products-grid');
+            grid.innerHTML = '';
+
+            if (products.length === 0) {
+                grid.innerHTML = '<div class="col-span-full text-center py-12 text-white">No products found</div>';
+                return;
+            }
+
+            products.forEach(product => {
+                const card = document.createElement('div');
+                card.className = 'product-card';
+                card.innerHTML = `
+                    <div class="product-image">
+                        ${product.image || '🌾'}
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold mb-2">${product.name}</h3>
+                        <p class="text-gray-600 mb-4">${product.description}</p>
+                        <div class="flex items-center justify-between mb-4">
+                            <div class="text-2xl font-bold text-green-600">₹${product.price}/${product.unit}</div>
+                            <div class="text-sm text-gray-500">
+                                <i class="fas fa-map-marker-alt mr-1"></i>${product.location}
+                            </div>
+                        </div>
+                        <div class="flex items-center mb-4">
+                            <i class="fas fa-user-tie mr-2 text-gray-500"></i>
+                            <span class="text-sm text-gray-600">${product.farmer_name}</span>
+                        </div>
+                        <div class="flex gap-2">
+                            <button onclick="buyProduct(${product.id})" class="flex-1 px-3 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 transition-all">
+                                <i class="fas fa-shopping-cart mr-1"></i>Buy
+                            </button>
+                            <button onclick="viewProduct(${product.id})" class="px-3 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-all">
+                                <i class="fas fa-eye mr-1"></i>View
+                            </button>
+                        </div>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        // Create sample products
+        async function createSampleProducts() {
+            const sampleProducts = [
+                // Vegetables
+                { name: 'તાજા ટમેટા', description: 'શ્રેષ્ઠ ગુણવત્તાવાળા ટમેટા - ખેતરમાંથી તાજા', price: 40, unit: 'kg', farmer_name: 'રમેશભાઈ', location: 'ગાંધીનગર', image: '🍅', category: 'vegetables' },
+                { name: 'કાકડી', description: 'તાજી કાકડી - ગ્રીનહાઉસમાં ઉગાડેલ', price: 30, unit: 'kg', farmer_name: 'રમેશભાઈ', location: 'ગાંધીનગર', image: '🥒', category: 'vegetables' },
+                { name: 'બટાકું', description: 'શ્રેષ્ઠ ગુણવત્તાવાળા બટાકું', price: 25, unit: 'kg', farmer_name: 'મહેશભાઈ', location: 'રાજકોટ', image: '🥔', category: 'vegetables' },
+                { name: 'ભિંડી', description: 'તાજી ભિંડી - ઓર્ગેનિક', price: 35, unit: 'kg', farmer_name: 'રાજેશભાઈ', location: 'વડોદરા', image: '🍆', category: 'vegetables' },
+                { name: 'લીલા મરચાં', description: 'તીખા લીલા મરચાં', price: 45, unit: 'kg', farmer_name: 'દિલીપભાઈ', location: 'અમદાવાદ', image: '🌶️', category: 'vegetables' },
+                { name: 'ગોળા', description: 'તાજા ગોળા - સ્થાનિક જાત', price: 50, unit: 'kg', farmer_name: 'ગીરીશભાઈ', location: 'સુરત', image: '🥬', category: 'vegetables' },
+                { name: 'ફ્લાવર બીન', description: 'તાજા ફ્લાવર બીન', price: 60, unit: 'kg', farmer_name: 'હર્ષભાઈ', location: 'ગાંધીનગર', image: '🫘', category: 'vegetables' },
+                { name: 'કોબી', description: 'તાજી કોબી - શિયાળની ફસલ', price: 20, unit: 'piece', farmer_name: 'રમેશભાઈ', location: 'ગાંધીનગર', image: '🥦', category: 'vegetables' },
+                
+                // Fruits
+                { name: 'સફરજન', description: 'મીઠા સફરજન - કાશ્મીરી', price: 80, unit: 'kg', farmer_name: 'દિલીપભાઈ', location: 'અમદાવાદ', image: '🍎', category: 'fruits' },
+                { name: 'કેરી', description: 'કેરી - અલફોન્સો જાત', price: 120, unit: 'dozen', farmer_name: 'ગીરીશભાઈ', location: 'સુરત', image: '🥭', category: 'fruits' },
+                { name: 'સંત્રા', description: 'તાજા સંત્રા - નાગપુરી', price: 60, unit: 'dozen', farmer_name: 'મહેશભાઈ', location: 'રાજકોટ', image: '🍊', category: 'fruits' },
+                { name: 'અનાના', description: 'મીઠા અનાના', price: 40, unit: 'piece', farmer_name: 'રાજેશભાઈ', location: 'વડોદરા', image: '🍍', category: 'fruits' },
+                { name: 'દ્રાક્ષ', description: 'કાળી દ્રાક્ષ', price: 90, unit: 'kg', farmer_name: 'હર્ષભાઈ', location: 'ગાંધીનગર', image: '🍇', category: 'fruits' },
+                { name: 'ચીકુ', description: 'તાજા ચીકુ', price: 70, unit: 'kg', farmer_name: 'રમેશભાઈ', location: 'ગાંધીનગર', image: '🥝', category: 'fruits' },
+                { name: 'અંજીર', description: 'તાજા અંજીર', price: 100, unit: 'kg', farmer_name: 'દિલીપભાઈ', location: 'અમદાવાદ', image: '🍈', category: 'fruits' },
+                { name: 'નાશપાતી', description: 'તાજી નાશપાતી', price: 50, unit: 'kg', farmer_name: 'ગીરીશભાઈ', location: 'સુરત', image: '🍐', category: 'fruits' },
+                
+                // Grains
+                { name: 'બાસમતી ચોખા', description: '1121 વિધેય બાસમતી ચોખા', price: 120, unit: 'kg', farmer_name: 'દિલીપભાઈ', location: 'અમદાવાદ', image: '🍚', category: 'grains' },
+                { name: 'ઘઉં', description: 'શ્રેષ્ઠ ગુણવત્તાવાળા ઘઉં', price: 45, unit: 'kg', farmer_name: 'મહેશભાઈ', location: 'રાજકોટ', image: '🌾', category: 'grains' },
+                { name: 'જુવાર', description: 'જુવાર - મોટી જાત', price: 35, unit: 'kg', farmer_name: 'રાજેશભાઈ', location: 'વડોદરા', image: '🌽', category: 'grains' },
+                { name: 'બાજરી', description: 'બાજરી - પોષણસભર', price: 40, unit: 'kg', farmer_name: 'હર્ષભાઈ', location: 'ગાંધીનગર', image: '🌾', category: 'grains' },
+                { name: 'મગ', description: 'તુવર મગ', price: 80, unit: 'kg', farmer_name: 'રમેશભાઈ', location: 'ગાંધીનગર', image: '🌰', category: 'grains' },
+                { name: 'ચણા', description: 'કાળા ચણા', price: 70, unit: 'kg', farmer_name: 'દિલીપભાઈ', location: 'અમદાવાદ', image: '🌰', category: 'grains' },
+                { name: 'મગફળી', description: 'તાજી મગફળી', price: 110, unit: 'kg', farmer_name: 'ગીરીશભાઈ', location: 'સુરત', image: '🥜', category: 'grains' },
+                { name: 'તલ', description: 'તલ - સ્થાનિક જાત', price: 150, unit: 'kg', farmer_name: 'મહેશભાઈ', location: 'રાજકોટ', image: '🥜', category: 'grains' },
+                
+                // Dairy
+                { name: 'તાજી દૂધ', description: 'ગાયનું તાજું દૂધ', price: 55, unit: 'liter', farmer_name: 'ગીરીશભાઈ', location: 'સુરત', image: '🥛', category: 'dairy' },
+                { name: 'માવો', description: 'તાજો માવો', price: 80, unit: 'kg', farmer_name: 'રાજેશભાઈ', location: 'વડોદરા', image: '🧈', category: 'dairy' },
+                { name: 'પનીર', description: 'તાજું પનીર', price: 120, unit: 'kg', farmer_name: 'હર્ષભાઈ', location: 'ગાંધીનગર', image: '🧀', category: 'dairy' },
+                { name: 'ઢોક', description: 'તાજી ઢોક', price: 60, unit: 'liter', farmer_name: 'રમેશભાઈ', location: 'ગાંધીનગર', image: '�', category: 'dairy' },
+                { name: 'છાસ', description: 'તાજી છાસ', price: 40, unit: 'kg', farmer_name: 'દિલીપભાઈ', location: 'અમદાવાદ', image: '🥛', category: 'dairy' },
+                { name: 'મઠિયા', description: 'તાજા મઠિયા', price: 90, unit: 'kg', farmer_name: 'ગીરીશભાઈ', location: 'સુરત', image: '🧈', category: 'dairy' },
+                { name: 'ઘી', description: 'શુદ્ધ ગૌ ઘી', price: 450, unit: 'liter', farmer_name: 'મહેશભાઈ', location: 'રાજકોટ', image: '🧈', category: 'dairy' },
+                { name: 'દહી', description: 'તાજું દહી', price: 50, unit: 'kg', farmer_name: 'રાજેશભાઈ', location: 'વડોદરા', image: '🥛', category: 'dairy' },
+                
+                // Spices
+                { name: 'હળદર', description: 'શુદ્ધ હળદર', price: 150, unit: 'kg', farmer_name: 'ગીરીશભાઈ', location: 'સુરત', image: '🌶️', category: 'spices' },
+                { name: 'મરચું પાઉડર', description: 'લાલ મરચું પાઉડર', price: 200, unit: 'kg', farmer_name: 'હર્ષભાઈ', location: 'ગાંધીનગર', image: '🌶️', category: 'spices' },
+                { name: 'જીરું', description: 'શુદ્ધ જીરું', price: 180, unit: 'kg', farmer_name: 'રમેશભાઈ', location: 'ગાંધીનગર', image: '🌾', category: 'spices' },
+                { name: 'ધાણા', description: 'તાજા ધાણા', price: 250, unit: 'kg', farmer_name: 'દિલીપભાઈ', location: 'અમદાવાદ', image: '�', category: 'spices' },
+                { name: 'મેથી', description: 'તાજું મેથી', price: 120, unit: 'kg', farmer_name: 'ગીરીશભાઈ', location: 'સુરત', image: '🌿', category: 'spices' },
+                { name: 'હિંગ', description: 'શુદ્ધ હિંગ', price: 350, unit: 'kg', farmer_name: 'મહેશભાઈ', location: 'રાજકોટ', image: '🌾', category: 'spices' },
+                { name: 'લવિંગ', description: 'તાજા લવિંગ', price: 400, unit: 'kg', farmer_name: 'રાજેશભાઈ', location: 'વડોદરા', image: '🌾', category: 'spices' },
+                { name: 'એલચી', description: 'શુદ્ધ એલચી', price: 800, unit: 'kg', farmer_name: 'હર્ષભાઈ', location: 'ગાંધીનગર', image: '🌾', category: 'spices' },
+                
+                // Seeds
+                { name: 'ટમેટાના બીજ', description: 'હાઇબ્રિડ ટમેટા બીજ', price: 300, unit: 'packet', farmer_name: 'રમેશભાઈ', location: 'ગાંધીનગર', image: '🌱', category: 'seeds' },
+                { name: 'મરચાંના બીજ', description: 'હાઇબ્રિડ મરચાં બીજ', price: 250, unit: 'packet', farmer_name: 'દિલીપભાઈ', location: 'અમદાવાદ', image: '🌱', category: 'seeds' },
+                { name: 'કાકડીના બીજ', description: 'કાકડી બીજ - ગ્રીનહાઉસ', price: 200, unit: 'packet', farmer_name: 'ગીરીશભાઈ', location: 'સુરત', image: '�', category: 'seeds' },
+                { name: 'કોબીના બીજ', description: 'કોબી બીજ', price: 180, unit: 'packet', farmer_name: 'મહેશભાઈ', location: 'રાજકોટ', image: '🌱', category: 'seeds' },
+                { name: 'ભિંડીના બીજ', description: 'ભિંડી બીજ', price: 220, unit: 'packet', farmer_name: 'રાજેશભાઈ', location: 'વડોદરા', image: '🌱', category: 'seeds' },
+                { name: 'બટાકાંના બીજ', description: 'બટાકાં બીજ', price: 150, unit: 'kg', farmer_name: 'હર્ષભાઈ', location: 'ગાંધીનગર', image: '🌱', category: 'seeds' },
+                { name: 'કેરીના બીજ', description: 'કેરી બીજ', price: 500, unit: 'kg', farmer_name: 'રમેશભાઈ', location: 'ગાંધીનગર', image: '🌱', category: 'seeds' },
+                { name: 'સફરજનના બીજ', description: 'સફરજન બીજ', price: 400, unit: 'kg', farmer_name: 'દિલીપભાઈ', location: 'અમદાવાદ', image: '🌱', category: 'seeds' }
+            ];
+
+            for (const product of sampleProducts) {
+                await supabase.from('products').insert(product);
+            }
+        }
+
+        // Filter products
+        function filterProducts() {
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+            const category = document.getElementById('categoryFilter').value;
+            const priceRange = document.getElementById('priceFilter').value;
+
+            filteredProducts = allProducts.filter(product => {
+                const matchesSearch = product.name.toLowerCase().includes(searchTerm) || 
+                                   product.description.toLowerCase().includes(searchTerm);
+                const matchesCategory = !category || product.category === category;
+                
+                let matchesPrice = true;
+                if (priceRange) {
+                    const [min, max] = priceRange.split('-').map(p => p === '+' ? Infinity : parseInt(p));
+                    matchesPrice = product.price >= min && (max ? product.price <= max : true);
+                }
+
+                return matchesSearch && matchesCategory && matchesPrice;
+            });
+
+            displayProducts(filteredProducts);
+        }
+
+        // Product actions
+        function buyProduct(productId) {
+            alert('Product added to cart! (Demo mode)');
+        }
+
+        function viewProduct(productId) {
+            const product = allProducts.find(p => p.id === productId);
+            if (product) {
+                alert(`Product Details:\n\nName: ${product.name}\nPrice: ₹${product.price}/${product.unit}\nFarmer: ${product.farmer_name}\nLocation: ${product.location}`);
+            }
+        }
+
+        function loadMoreProducts() {
+            alert('Loading more products... (Demo mode)');
+        }
+
+        // Search on enter
+        document.getElementById('searchInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                filterProducts();
+            }
+        });
+    </script>
+</body>
+</html>
