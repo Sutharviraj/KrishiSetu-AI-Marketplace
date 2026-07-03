@@ -240,21 +240,8 @@ KrishiSetu_AIMarketplace/
 - **✅ Local Language**: Gujarati language support for rural farmers
 - **✅ Production Ready**: Clean, maintainable, and scalable codebase
 
----
 
-## 📞 Contact & Support
-
-### 📧 Get in Touch
-- **📧 Email**: team@krishisetu.com
-- **📱 Phone**: +91-XXXXXXXXXX
-- **🌐 Website**: www.krishisetu.com
-- **🏢 Address**: Gujarat, India
-
-### 🌐 Social Media
-- **📘 Facebook**: @KrishiSetuIndia
-- **📷 Instagram**: @krishisetu.india
-- **🐦 Twitter**: @KrishiSetu
-- **💼 LinkedIn**: /company/krishisetu
+-----
 
 ### 📚 Resources
 - **📖 Documentation**: Complete project documentation
